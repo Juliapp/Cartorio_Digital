@@ -1,6 +1,5 @@
 package comunication;
    
-import controladores.ControllerDeTratamento;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,12 +8,9 @@ import java.net.Socket;
 
 
 public class ConectionIO {
-    //tratamento de mensagem e checagem de mensagem
-    private final ControllerDeTratamento tratamento;
     private final InputStream input; 
     
-    public ConectionIO(Socket socket, ControllerDeTratamento tratamento) throws IOException{
-        this.tratamento = tratamento;
+    public ConectionIO(Socket socket) throws IOException{
         input = socket.getInputStream();       
     }
     
@@ -26,7 +22,7 @@ public class ConectionIO {
     private void tratarInput(InputStream input) throws IOException{
         byte[] bytes = toByteArray(input);
         if(bytes.length > 0){
-            tratamento.tratarMensagem(bytes);
+            //tratamento.tratarMensagem(bytes);
         }
     }
     
@@ -36,11 +32,5 @@ public class ConectionIO {
         dataInputStream.readFully(buffer);
         return buffer;
     }
-    
-    public void fecharSocket(Socket socket) throws IOException{
-        socket.close();
-    }
-    
-    
     
 }
