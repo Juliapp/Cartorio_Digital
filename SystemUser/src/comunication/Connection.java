@@ -3,13 +3,13 @@ package comunication;
 import java.io.IOException;
 import java.net.Socket;
 
-public class Conection{
+public class Connection{
     private Socket socket;
     private String ip;
     private int port;
-    private ConectionIO io;
+    private ConnectionIO io;
 
-    public Conection(String ip, int port){
+    public Connection(String ip, int port){
         this.ip = ip;
         this.port = port;
         conect();
@@ -18,13 +18,14 @@ public class Conection{
     private void conect(){
         try {
             socket = createSocket(ip, port);
-            io = new ConectionIO(socket);
+            io = new ConnectionIO(socket);
         } catch (IOException ex) {
+            //tratar isso aqui
         }
         
     }
         
-    public ConectionIO getConectionIO(){
+    public ConnectionIO getConectionIO(){
         return io;
     }
 
