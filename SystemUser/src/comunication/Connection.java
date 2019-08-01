@@ -5,11 +5,11 @@ import java.net.Socket;
 
 public class Connection{
     private Socket socket;
-    private String ip;
-    private int port;
+    private final String ip;
+    private final int port;
     private ConnectionIO io;
 
-    public Connection(String ip, int port){
+    protected Connection(String ip, int port){
         this.ip = ip;
         this.port = port;
         conect();
@@ -48,6 +48,7 @@ public class Connection{
     public void closeSocket(Socket socket) throws IOException{
         socket.close();
     }     
+    
 }
 
 

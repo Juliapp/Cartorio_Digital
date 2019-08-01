@@ -14,6 +14,7 @@ import java.net.Socket;
 public class ConnectionIO {
     private final InputStream input; 
     private final OutputStream output;
+    private final Socket socket;
     
     /**
      *  Turn the socket to an object of input and other for output
@@ -21,10 +22,14 @@ public class ConnectionIO {
      * @throws IOException
      */
     public ConnectionIO(Socket socket) throws IOException{
+        this.socket = socket;
         input = socket.getInputStream();
         output = socket.getOutputStream();
     }
 
+    public boolean isClosed(){
+        return socket.isClosed();
+    }
     /**
      *That method starts with a empty byte array "byteArrayInputed",
      * call the methods processOutput, passing the bytesOutput by param, and processInput, the last one 
