@@ -1,26 +1,31 @@
 package model;
 
+import comunication.BufferMessage;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class DataProcess {
-    byte[] buffer;
-
-    public DataProcess() {
-        buffer = new byte[]{};
+    private final BufferMessage message;
+    
+    public DataProcess() throws IOException, ClassNotFoundException{
+        message = BufferMessage.getInstance();
     }
     
-    public void pullMessange(byte[] inputedBytes){
+    
+    public void pullMessage(byte[] inputedBytes){
+        
         //tratar
     }
     
-    public void pushMessange(byte[] newMessage){
+    public void pushMessage(byte[] newMessage){
         //enviar nova mensagem
     }
     
-    public byte[] getMessange(){
-        byte[] aux = buffer;
-        buffer = new byte[]{};
-        return aux;
+    public byte[] getMessage(){
+        return null;
+//        byte[] aux = buffer;
+//        buffer = new byte[]{};
+//        return aux;
     }
     
     public byte[] convertToByte(String string) {

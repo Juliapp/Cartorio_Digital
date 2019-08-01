@@ -5,7 +5,6 @@ import java.io.IOException;
 import model.DataProcess;
 
 public class FacadeBack {
-    private final DataProcess dataProsses;
     
     private static FacadeBack facade;
     
@@ -14,25 +13,7 @@ public class FacadeBack {
     }        
 
     public FacadeBack() {
-        dataProsses = new DataProcess();
-    }
-
-    public DataProcess getDataProsses() {
-        return dataProsses;
-    }
-    
-    public void put(byte[] inputedBytes){
-        dataProsses.pullMessange(inputedBytes);
     }
     
     
-
-//    public void conectarServidor(String ip, int host) {
-//        
-//        c.createNewPeerConection(ip, host);
-//        servidor = new Conexao(tratamento, ip, host);
-//        tcIO = new ThreadConections(servidor.getConectionIO());
-//        new Thread(tcIO).start();
-//    }
-
 }
