@@ -1,37 +1,30 @@
 package comunication;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class PeersMap {
-    private final Map<String, Connection> peersMap;  
+    private final Map<String, Peer> peersMap;  
     
     public PeersMap() {
         peersMap = new HashMap();
     }    
     
-    public Connection createNewPeerConection(String ip, int host) {
-       return peersMap.put(ip, new Connection(ip, host));
+    public Peer addPeer(Peer p) {
+       return peersMap.putIfAbsent(p.getIp() + ":" + String.valueOf(p.getPort()), p);
     }
     
+    public Peer getPeer(String key){
+        return peersMap.get(key);
+    }
+       
     public Iterator<String> getAllIps(){
         return peersMap.keySet().iterator();
     }
     
-    public Iterator<Connection> getAllConnections(){
+    public Iterator<Peer> getIterPeers(){
         return peersMap.values().iterator();
     }
-    
-    public Iterator<ConnectionIO> getAllConnectionsIO(){
-        List<ConnectionIO> cIOList = new ArrayList();
-        Iterator aux = getAllConnections();
-        while(aux.hasNext()){
-            Connection c = (Connection) aux.next();
-            cIOList.add(c.getConectionIO());
-        }
-        return cIOList.iterator();
-    }
+
 }

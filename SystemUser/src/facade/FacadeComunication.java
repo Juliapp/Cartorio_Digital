@@ -1,36 +1,32 @@
 package facade;
 
-import comunication.Connection;
-import comunication.ConnectionIO;
-import controller.ConnectionController;
+import controller.ConnectionsController;
 import java.io.IOException;
-import java.util.Iterator;
 
 public class FacadeComunication {
-    private final ConnectionController connectionController;
+    private final ConnectionsController connectionsController;
     private static FacadeComunication facade;
     
     private FacadeComunication(){
-        connectionController = new ConnectionController();
+        connectionsController = new ConnectionsController();
     }
     
     public static synchronized FacadeComunication getInstance() throws IOException, ClassNotFoundException {
         return (facade == null) ? facade = new FacadeComunication(): facade;
     }    
     
-    public Connection createNewPeerConection(String ip, int host) {
-       return connectionController.createNewPeerConection(ip, host);
+    public void initializeUserPeer(int port){
+        connectionsController.initializeUserPeer(5555);
+        connectionsController.initializeThreads();
+        createNewPeerConection("localhost", 1234);
     }
     
-    public Iterator<String> getAllIps(){
-        return connectionController.getAllIps();
+    public void createNewPeerConection(String ip, int host) {
+       connectionsController.addPeer(ip, host);
     }
     
-    public Iterator<Connection> getAllConnections(){
-        return connectionController.getAllConnections();
+    public void sendMessage(){
+        
     }
-    
-    public Iterator<ConnectionIO> getAllConnectionsIO(){
-        return connectionController.getAllConnectionsIO();
-    }    
+  
 }

@@ -1,14 +1,13 @@
 package model;
 
-import comunication.BufferMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class DataProcess {
-    private final BufferMessage message;
+//    private final BufferMessage message;
     
     public DataProcess() throws IOException, ClassNotFoundException{
-        message = BufferMessage.getInstance();
+        //message = BufferMessage.getInstance();
     }
     
     

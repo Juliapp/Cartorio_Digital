@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.FXMLHomeController">
+   <children>
+      <VBox alignment="TOP_RIGHT" prefHeight="479.0" prefWidth="230.0" style="-fx-background-color: #0747a6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Separator prefHeight="152.0" prefWidth="230.0" visible="false" />
+            <Separator prefHeight="34.0" prefWidth="230.0" />
+            <Separator prefHeight="5.0" prefWidth="230.0" visible="false" />
+            <Separator prefHeight="5.0" prefWidth="230.0" visible="false" />
+            <Separator prefHeight="5.0" prefWidth="230.0" visible="false" />
+            <Separator prefHeight="5.0" prefWidth="230.0" visible="false" />
+            <JFXButton fx:id="btnMyRealties" alignment="BASELINE_LEFT" cancelButton="true" graphicTextGap="6.0" onAction="#myRealties" prefHeight="30.0" prefWidth="180.0" text="Meus imoveis" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
+            <JFXButton fx:id="btnRegRealty" alignment="BASELINE_LEFT" onAction="#regRealty" prefHeight="30.0" prefWidth="180.0" text="Registro de imovel novo" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
+            <JFXButton fx:id="btnearch" alignment="BASELINE_LEFT" onAction="#search" prefHeight="30.0" prefWidth="180.0" text="Buscar" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></JFXButton>
+         </children>
+      </VBox>
+      <AnchorPane fx:id="anchorMenu" layoutX="231.0" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #000000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

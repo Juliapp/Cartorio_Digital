@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="426.0" prefWidth="707.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="view.controllers.FXMLLoginController">
+   <children>
+      <Separator layoutX="350.0" layoutY="44.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="7.0" />
+      <JFXButton layoutX="586.0" layoutY="259.0" onAction="#checkLogin" text="Login" />
+      <JFXTextField fx:id="txfEmail" layoutX="425.0" layoutY="142.0" prefHeight="25.0" prefWidth="207.0" promptText="seu@email" />
+      <JFXPasswordField fx:id="txfPassword" layoutX="497.0" layoutY="189.0" text="senha" />
+      <JFXButton layoutX="112.0" layoutY="234.0" onAction="#logon" text="Cadastre-se" />
+      <Label layoutX="374.0" layoutY="159.0" text="Email:" />
+      <Label layoutX="377.0" layoutY="205.0" text="Senha:" />
+   </children>
+</AnchorPane>
