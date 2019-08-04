@@ -4,11 +4,11 @@ import facade.FacadeFront;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import model.Realty;
 
 public class FXMLRealtyController implements Initializable {
@@ -32,6 +32,12 @@ public class FXMLRealtyController implements Initializable {
 
     public void setSomething(Label something) {
         this.something = something;
+    }
+
+
+    @FXML
+    private void passSignature(ActionEvent event) {
+        
     }
     
     

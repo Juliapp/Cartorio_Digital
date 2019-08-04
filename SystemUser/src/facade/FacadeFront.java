@@ -43,6 +43,10 @@ public class FacadeFront {
     public void loadHomeScreen() {
         screenController.loadRootScreen(Settings.Scenes.HOME);
     }
+    
+    public void loadConectScreen(){
+        screenController.loadRootScreen(Settings.Scenes.CONECT_SERVER);
+    }
 
     public void loadLogonScreen() {
         screenController.loadRootScreen(Settings.Scenes.LOGON);

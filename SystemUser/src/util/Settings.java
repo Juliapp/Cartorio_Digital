@@ -8,6 +8,9 @@ public class Settings {
         REALTY("/view/screens/FXMLRealty.fxml"),
         LOGIN("/view/screens/FXMLLogin.fxml"),
         HOME("/view/screens/FXMLHome.fxml"),
+        CONECT_SERVER("/view/screens/FXMLServerConect.fxml"),
+//        LOGIN("/view/screens/FXMLLogin.fxml"),
+//        HOME("/view/screens/FXMLHome.fxml"),
         LOGON("/view/screens/FXMLLogon.fxml");
         
         private final String value;

@@ -11,20 +11,29 @@
 
 <AnchorPane id="AnchorPane" prefHeight="90.0" prefWidth="537.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.FXMLRealtyController">
    <children>
+      <Pane layoutX="13.0" layoutY="15.0" prefHeight="61.0" prefWidth="511.0" style="-fx-border-color: #cfcfcf; -fx-border-radius: 7;">
+         <children>
+            <JFXButton layoutX="439.0" layoutY="5.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#passSignature" prefHeight="50.0" prefWidth="50.0" text=" ">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="179.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/upload-estate-up-arrow-house-action-home-real-512.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </graphic>
+               <tooltip>
+                  <Tooltip text="Passar assinatura desse imóvel" />
+               </tooltip>
+            </JFXButton>
+         </children></Pane>
       <Label fx:id="address" layoutX="23.0" layoutY="18.0" text="Label">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <Label fx:id="something" layoutX="23.0" layoutY="45.0" text="Label" />
-      <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="479.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../icons/upload-estate-up-arrow-house-action-home-real-512.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </ImageView>
-      <Pane layoutX="13.0" layoutY="15.0" prefHeight="61.0" prefWidth="511.0" style="-fx-border-color: #cfcfcf; -fx-border-radius: 7;" />
    </children>
 </AnchorPane>

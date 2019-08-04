@@ -1,12 +1,16 @@
 package comunication;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Peer {
     private Socket socket;
     private final String ip;
     private final int port;
+    private OutputStream output;    
     //private ConnectionIO io;
 
     public Peer(String ip, int port){
@@ -18,7 +22,7 @@ public class Peer {
     private void conect(){
         try {
             socket = createSocket(ip, port);
-            //io = new ConnectionIO(socket);
+            output = socket.getOutputStream();
         } catch (IOException ex) {
             //tratar isso aqui
         }
@@ -48,4 +52,14 @@ public class Peer {
     public void closeSocket(Socket socket) throws IOException{
         socket.close();
     }         
+
+    void send(byte[] bytes) {
+        try {
+            output.write(bytes, 0, bytes.length);
+            output.flush(); 
+        } catch (IOException ex) {
+            Logger.getLogger(Peer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
 }

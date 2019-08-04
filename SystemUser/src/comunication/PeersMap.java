@@ -15,6 +15,10 @@ public class PeersMap {
        return peersMap.putIfAbsent(p.getIp() + ":" + String.valueOf(p.getPort()), p);
     }
     
+    public Peer ConectServer(Peer p){
+        return peersMap.putIfAbsent("courHhouse", p);
+    }
+    
     public Peer getPeer(String key){
         return peersMap.get(key);
     }
@@ -25,6 +29,10 @@ public class PeersMap {
     
     public Iterator<Peer> getIterPeers(){
         return peersMap.values().iterator();
+    }
+
+    public Peer getPeer(String host, int port) {
+        return peersMap.get(host + ":" + String.valueOf(port));
     }
 
 }

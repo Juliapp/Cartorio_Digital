@@ -16,17 +16,20 @@ public class FacadeComunication {
     }    
     
     public void initializeUserPeer(int port){
-        connectionsController.initializeUserPeer(5555);
+        connectionsController.initializeUserPeer(port);
         connectionsController.initializeThreads();
-        createNewPeerConection("localhost", 1234);
     }
     
     public void createNewPeerConection(String ip, int host) {
        connectionsController.addPeer(ip, host);
     }
     
-    public void sendMessage(){
-        
+    public void conectServer(String ip, int host){
+        connectionsController.conectCourtHouse(ip, host); 
     }
-  
+    
+    public void sendMessage(String message, String host, int port){
+        connectionsController.sendMessage(message, host, port);
+    }
+    
 }
