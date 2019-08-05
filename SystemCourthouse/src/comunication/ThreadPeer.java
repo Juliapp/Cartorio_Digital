@@ -12,7 +12,6 @@ public class ThreadPeer extends Thread{
     private String bufferedMessage;
     
     public ThreadPeer(){
-        hasMessageToSend = false;
     }
     
     @Override
@@ -50,13 +49,6 @@ public class ThreadPeer extends Thread{
         hasMessageToSend = true;
         isMessageToAll = false;
     }
-
-    public void sendMessageToCourthouse(String message) {
-        aux = peers.getCourthouse();
-        bufferedMessage = message;
-        hasMessageToSend = true;
-        isMessageToAll = false;
-    }    
     
     public byte[] convertToByte(String string) {
         return string.getBytes(StandardCharsets.UTF_8);

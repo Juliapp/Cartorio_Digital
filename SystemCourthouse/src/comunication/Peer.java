@@ -17,9 +17,18 @@ public class Peer {
         this.port = port;
     }
  
-    public void conect() throws IOException{
-        socket = new Socket(ip, port);
-        output = socket.getOutputStream();        
+    public void conect(){
+        try {
+            socket = createSocket(ip, port);
+            output = socket.getOutputStream();
+        } catch (IOException ex) {
+            //tratar isso aqui
+        }
+        
+    }
+        
+    public boolean isClosed(){
+        return socket.isClosed();
     }
 
     public Socket getSocket(){
@@ -34,18 +43,20 @@ public class Peer {
         return port;
     }
     
+    private Socket createSocket(String host, int porta) throws IOException {
+        return new Socket(host, porta);
+    }   
+    
     public void closeSocket(Socket socket) throws IOException{
         socket.close();
     }         
 
     void send(byte[] bytes) {
-        if(socket.isConnected()){
-            try {
-                output.write(bytes, 0, bytes.length);
-                output.flush(); 
-            } catch (IOException ex) {
-                Logger.getLogger(Peer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            output.write(bytes, 0, bytes.length);
+            output.flush(); 
+        } catch (IOException ex) {
+            Logger.getLogger(Peer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

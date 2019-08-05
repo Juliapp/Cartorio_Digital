@@ -15,14 +15,10 @@ public class FacadeComunication {
         return (facade == null) ? facade = new FacadeComunication(): facade;
     }    
     
-    public void initializeUserPeer(int port){
+    public void initializeCourtHouse(int port){
         connectionsController.initializeUserPeer(port);
         connectionsController.initializeThreads();
     }
-    
-    public int getUserPeerPort(){
-        return connectionsController.getUserPeerPort();
-    }    
     
     public void createNewPeerConection(String ip, int host) {
        connectionsController.addPeer(ip, host);
@@ -32,11 +28,4 @@ public class FacadeComunication {
         connectionsController.sendMessage(message, host, port);
     }
     
-    public void sendMessageToCourthouse(String message){
-        connectionsController.sendMessageToCourthouse(message);
-    }
-
-    public void conectServer(String ip, int port, String askConectionToServer) {
-        connectionsController.conectCourtHouse(ip, port, askConectionToServer); 
-    }
 }

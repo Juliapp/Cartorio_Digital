@@ -5,6 +5,9 @@ import comunication.PeersMap;
 import comunication.ThreadPeer;
 import comunication.ThreadUserPeer;
 import comunication.UserPeer;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConnectionsController{
     private UserPeer userPeer;
@@ -15,17 +18,20 @@ public class ConnectionsController{
 
     public ConnectionsController() {
         othersPeers = new PeersMap();
+        userPeer = null;
     }
     
     public void initializeUserPeer(int port){
-        if(userPeer == null){
-            userPeer = new UserPeer(port);
-        }
+        userPeer = new UserPeer(port);
+    }
+    
+    public int getUserPeerPort(){
+        return userPeer.getPort();
     }
     
     public void initializeThreads(){
         threadUserPeer = new ThreadUserPeer(userPeer);
-        new Thread(threadUserPeer).start();
+        new Thread(threadUserPeer).start();          
         threadPeer = new ThreadPeer();
         new Thread(threadPeer).start();
     }
@@ -33,20 +39,17 @@ public class ConnectionsController{
     
     public Peer addPeer(String host, int port){
         Peer p = new Peer(host, port);
-        if(othersPeers.addPeer(p) != null){
-            threadPeer.UpdatePeers(othersPeers);
+        try {
+            p.conect();
+            if(othersPeers.addPeer(p) != null){
+                threadPeer.UpdatePeers(othersPeers);
+            }            
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionsController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return p;
     }
-    
-    public Peer conectCourtHouse(String host, int port){
-        Peer p = new Peer(host, port);
-        if(othersPeers.ConectServer(p) != null){
-            threadPeer.UpdatePeers(othersPeers);
-        }
-        return p;        
-    }
-    
+        
     public Peer getPeer(String key){
         return othersPeers.getPeer(key);
     }
@@ -54,6 +57,22 @@ public class ConnectionsController{
     public void sendMessage(String message, String host, int port) {
         addPeer(host, port);
         threadPeer.sendMessage(message, host, port);
+    }
+    
+    public void sendMessageToCourthouse(String message) {
+        threadPeer.sendMessageToCourthouse(message);
+    }  
+
+    public void conectCourtHouse(String host, int port, String askConectionToServer) {
+        try {
+            Peer p = new Peer(host, port);
+            p.conect();
+            othersPeers.ConectServer(p);
+            threadPeer.UpdatePeers(othersPeers);
+            threadPeer.sendMessageToCourthouse(askConectionToServer);
+        } catch (IOException ex) {
+            Logger.getLogger(ConnectionsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

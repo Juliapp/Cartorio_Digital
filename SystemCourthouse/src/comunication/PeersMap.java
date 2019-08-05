@@ -15,11 +15,6 @@ public class PeersMap {
        return peersMap.putIfAbsent(p.getIp() + ":" + String.valueOf(p.getPort()), p);
     }
     
-    public Peer ConectServer(Peer p){
-        Peer pe = peersMap.putIfAbsent("courthouse", p);        
-        return pe;
-    }
-    
     public Peer getPeer(String key){
         return peersMap.get(key);
     }
@@ -36,8 +31,4 @@ public class PeersMap {
         return peersMap.get(host + ":" + String.valueOf(port));
     }
     
-    public Peer getCourthouse(){
-        return peersMap.get("courthouse");
-    }    
-
 }
