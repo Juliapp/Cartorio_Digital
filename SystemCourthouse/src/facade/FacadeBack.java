@@ -1,37 +1,76 @@
 package facade;
 
+import JPAPersistence.DAO;
+import controller.ValidateNRespondController;
 import java.io.IOException;
-import java.util.Iterator;
+import java.util.List;
 import model.Realty;
 import model.UserData;
+import org.json.JSONObject;
 
 public class FacadeBack {
     
-    private final UserData user;
     private static FacadeBack facade;
+    
+    private final DAO dao;
+    private final ValidateNRespondController validate;
+    
+    private FacadeBack() throws IOException, ClassNotFoundException{
+        dao = new DAO();
+        validate = new ValidateNRespondController();
+    }
     
     public static synchronized FacadeBack getInstance() throws IOException, ClassNotFoundException {
         return (facade == null) ? facade = new FacadeBack(): facade;
     }        
 
-    public FacadeBack() {
-        user = new UserData("João");
+    
+
+    public Realty saveRealty(Realty realty){
+        return dao.saveRealty(realty);
     }
     
-    public Iterator<Realty> getRealties(){
-        
-        return user.getIterRelties();
+    public Realty findRealtyById(Integer id){
+        return dao.findRealtyById(id);
+    }    
+   
+    public List<Realty> getAllRealties(){
+        return dao.getAllRealties();
+    }
+    
+    public Realty removeRealty(Integer id){
+        return dao.removeRealty(id);
+    }
+    
+    /*
+        PERSISTENCE OF USERS    
+    */    
+    
+    public UserData saveUser(UserData user){
+        return dao.saveUser(user);
+    }
+    
+    public UserData getUserById(String id){
+        return dao.getUserById(id);
+    }    
+   
+    public List<UserData> getAllUsers(){
+        return dao.getAllUsers();
+    }
+    
+    public UserData removeUser(String id){
+        return dao.removeUser(id);
+    }
+    
+    public List<Realty> getUserRealties(String id){
+        return dao.getUserRealties(id);
+    }
+    
+    public UserData getUserByEmail(String email){
+        return dao.getUserByEmail(email);
     }
 
-    public void initializeUser(){
-        user.addRealty(new Realty(1, "Rua a"));
-        user.addRealty(new Realty(2, "Rua b"));
-        user.addRealty(new Realty(3, "Rua c"));
-        user.addRealty(new Realty(4, "Rua d"));        
+    public void validate(JSONObject message) {
+        validate.validateUser(message);
     }
-    
-    public UserData getUser(){
-        return user;
-    }
-    
 }

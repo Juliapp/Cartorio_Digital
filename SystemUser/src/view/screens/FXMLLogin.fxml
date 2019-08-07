@@ -11,12 +11,10 @@
    <children>
       <Separator layoutX="350.0" layoutY="44.0" orientation="VERTICAL" prefHeight="339.0" prefWidth="7.0" />
       <JFXButton layoutX="586.0" layoutY="299.0" onAction="#checkLogin" text="Login" />
-      <JFXTextField fx:id="txfEmail" layoutX="425.0" layoutY="142.0" prefHeight="25.0" prefWidth="207.0" promptText="seu@email" />
-      <JFXPasswordField fx:id="txfPassword" layoutX="425.0" layoutY="181.0" text="senha" />
+      <JFXTextField fx:id="txfEmail" layoutX="425.0" layoutY="182.0" prefHeight="25.0" prefWidth="207.0" promptText="admin" />
+      <JFXPasswordField fx:id="txfPassword" layoutX="425.0" layoutY="221.0" text="admin" />
       <JFXButton layoutX="112.0" layoutY="234.0" onAction="#logon" text="Cadastre-se" />
-      <Label layoutX="374.0" layoutY="159.0" text="Email:" />
-      <Label layoutX="372.0" layoutY="193.0" text="Senha:" />
-      <Label layoutX="374.0" layoutY="251.0" text="Porta:" />
-      <JFXTextField fx:id="loginPort" layoutX="425.0" layoutY="239.0" prefHeight="25.0" prefWidth="65.0" text="5555" />
+      <Label layoutX="374.0" layoutY="199.0" text="Email:" />
+      <Label layoutX="372.0" layoutY="233.0" text="Senha:" />
    </children>
 </AnchorPane>

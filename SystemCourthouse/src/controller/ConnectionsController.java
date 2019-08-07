@@ -34,9 +34,7 @@ public class ConnectionsController{
     public Peer addPeer(String host, int port){
         Peer p = new Peer(host, port);
         p.conect();
-        if(othersPeers.addPeer(p) != null){
-            threadPeer.UpdatePeers(othersPeers);
-        }
+        othersPeers.addPeer(p);
         return p;
     }
     
@@ -45,8 +43,7 @@ public class ConnectionsController{
     }
 
     public void sendMessage(String message, String host, int port) {
-        addPeer(host, port);
-        threadPeer.sendMessage(message, host, port);
+        threadPeer.sendMessage(message, othersPeers.getPeer(host, port));
     }
     
 }

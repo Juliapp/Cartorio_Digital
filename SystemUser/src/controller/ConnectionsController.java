@@ -6,6 +6,7 @@ import comunication.ThreadPeer;
 import comunication.ThreadUserPeer;
 import comunication.UserPeer;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,11 +23,19 @@ public class ConnectionsController{
     }
     
     public void initializeUserPeer(int port){
-        userPeer = new UserPeer(port);
+        try {
+            userPeer = new UserPeer(port);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ConnectionsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public int getUserPeerPort(){
         return userPeer.getPort();
+    }
+    
+    public String getUserHost(){
+        return userPeer.getHost();
     }
     
     public void initializeThreads(){

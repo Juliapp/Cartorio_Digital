@@ -1,39 +1,30 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
 public class UserData {
+    @Id
+    private String cpf;
     private String name;
     private String email;
-    private String cpf;
     private String password;
-    private final ArrayList<Realty> realties;
-    
-    
-    
-//    private EletronicSignature eSignature;
-    //Usar o singlleton 
+    private final ArrayList<Integer> realties;
 
-    public UserData(String name) {
+    public UserData(String cpf, String name, String email, String password) {
+        this.cpf = cpf;
         this.name = name;
+        this.email = email;
+        this.password = password;
         realties = new ArrayList<>();
     }
-    
-    
-    
-    
-//    private class EletronicSignature {
-//        //aqui vai ficar a assinatura 
-//    }
-    
-//    private class CertifyAlthority {
-//        private String name;
-//        private String hash;
-//        private EletronicSignature eSignature;
-//    }
-//    
 
+    public UserData(){
+        realties = new ArrayList<>();
+    }
     public String getName() {
         return name;
     }
@@ -66,20 +57,22 @@ public class UserData {
         this.password = password;
     }
     
-    public Iterator<Realty> getIterRelties(){
-        return realties.iterator();
+    public List<Integer> getReltiesIds(){
+        return realties;
     }
     
-    public void addRealty(Realty realty){
-        realties.add(realty);
+    public void addRealty(Integer realtyId){
+        realties.add(realtyId);
     }
     
-    public void removeRealty(Realty realty){
-        realties.remove(realty);
+    public void removeRealty(Integer realtyId){
+        realties.remove(realtyId);
     }
-    
-//    public void getRealty(){
-//        realties.
-//    }
-            
+
+    public void setAllNull() {
+        cpf = null;
+        email = null;
+        password = null;
+        name = null;
+    }
 }

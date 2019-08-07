@@ -12,6 +12,7 @@ public class ThreadPeer extends Thread{
     private String bufferedMessage;
     
     public ThreadPeer(){
+        hasMessageToSend = false;
     }
     
     @Override
@@ -42,9 +43,9 @@ public class ThreadPeer extends Thread{
     public void UpdatePeers(PeersMap peers) {
         this.peers = peers;
     }
-
-    public void sendMessage(String message, String host, int port) {
-        aux = peers.getPeer(host, port);
+    
+    public void sendMessage(String message, Peer peer) {
+        aux = peer;
         bufferedMessage = message;
         hasMessageToSend = true;
         isMessageToAll = false;

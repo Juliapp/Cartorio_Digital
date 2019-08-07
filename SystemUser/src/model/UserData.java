@@ -1,38 +1,19 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 
 public class UserData {
+    private String cpf;
     private String name;
     private String email;
-    private String cpf;
     private String password;
-    private final ArrayList<Realty> realties;
+    private final ArrayList<Integer> realties;
     
-    
-    
-//    private EletronicSignature eSignature;
-    //Usar o singlleton 
 
-    public UserData(String name) {
-        this.name = name;
+    public UserData() {
         realties = new ArrayList<>();
     }
-    
-    
-    
-    
-//    private class EletronicSignature {
-//        //aqui vai ficar a assinatura 
-//    }
-    
-//    private class CertifyAlthority {
-//        private String name;
-//        private String hash;
-//        private EletronicSignature eSignature;
-//    }
-//    
 
     public String getName() {
         return name;
@@ -66,20 +47,21 @@ public class UserData {
         this.password = password;
     }
     
-    public Iterator<Realty> getIterRelties(){
-        return realties.iterator();
+    public List<Integer> getReltiesIds(){
+        return realties;
     }
     
-    public void addRealty(Realty realty){
-        realties.add(realty);
+    public void addRealty(Integer realtyId){
+        realties.add(realtyId);
     }
     
-    public void removeRealty(Realty realty){
-        realties.remove(realty);
+    public void removeRealty(Integer realtyId){
+        realties.remove(realtyId);
     }
+
+    public List<Realty> getRealties() {
+        return (List)realties;
+    }
+
     
-//    public void getRealty(){
-//        realties.
-//    }
-            
 }

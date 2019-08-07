@@ -28,8 +28,6 @@ public class UserPeer {
         return input;
     }
     
-    
-        
     public Socket getSocket(){
         return socket;
     }

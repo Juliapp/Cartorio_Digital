@@ -3,7 +3,7 @@ package comunication;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import model.DataProcess;
+import controller.DataProcess;
 
 public class ThreadUserPeer extends Thread{
     private final UserPeer userPeer;
@@ -23,6 +23,8 @@ public class ThreadUserPeer extends Thread{
     public void run(){
         userPeer.conect();
         input = userPeer.getInputStream();
+        
+
         while(!Thread.currentThread().isInterrupted()){
             reciveReference = toByteArray(input);
             if(reciveReference.length > 0){

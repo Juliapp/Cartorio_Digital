@@ -4,9 +4,7 @@ package controller;
 import facade.FacadeBack;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -27,7 +25,6 @@ public class ScreenController {
     public ScreenController(Stage rootStage) throws IOException, ClassNotFoundException {
         stage = rootStage = new Stage();
         facadeb = FacadeBack.getInstance();
-        facadeb.initializeUser();
     }
 
     public void loadRootScreen(Scenes screen){
@@ -35,9 +32,9 @@ public class ScreenController {
         try {
             root = FXMLLoader.load(getClass().getResource(screen.getValue()));
         } catch (IOException ex) {
+            System.err.println(ex);
         }
         Scene scene = new Scene(root);
-
         stage.setScene(scene);
         stage.show();        
     }
@@ -47,7 +44,7 @@ public class ScreenController {
             Node node = (Node)FXMLLoader.load(getClass().getResource(screen.getValue()));
             anchor.getChildren().setAll(node);
         } catch (IOException ex) {
-            
+            System.err.println(ex);
         }
     }
     
@@ -57,14 +54,16 @@ public class ScreenController {
 
     public void loadRealties(VBox vbContainer) {
         vbContainer.getChildren().clear();
-        Iterator<Realty> ir = facadeb.getUser().getIterRelties();
         ArrayList<Node> elements = new ArrayList<>();
         int i = 0;
-        while(ir.hasNext()){
-            actual = ir.next();
-            elements.add(createNewRealtyNode());
-            i++;
-        }
+        List<Realty> ir = facadeb.getUserRealties();
+        if(ir != null || ir.size() > 0){
+            for (Realty realty : ir) {
+                actual = realty;
+                elements.add(createNewRealtyNode());
+                i++;            
+            }
+        }    
         vbContainer.getChildren().setAll(elements);
     }
     
@@ -73,7 +72,7 @@ public class ScreenController {
         try {
             node = (Node)FXMLLoader.load(getClass().getResource(REALTY.getValue()));
         } catch (IOException ex) {
-            System.out.println("node nulo");
+            System.err.println("node nulo");
         }
        
         return node;

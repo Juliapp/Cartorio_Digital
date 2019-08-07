@@ -24,6 +24,10 @@ public class FacadeComunication {
         return connectionsController.getUserPeerPort();
     }    
     
+    public String getUserHost(){
+        return connectionsController.getUserHost();
+    }
+    
     public void createNewPeerConection(String ip, int host) {
        connectionsController.addPeer(ip, host);
     }

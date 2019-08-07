@@ -1,19 +1,25 @@
 package model;
 
 public class Realty {
-    private int hash;
+    
+    private Integer id;
+    private Integer hash;
     private String address;
+    
 
-    public Realty(int hash, String address) {
-        this.hash = hash;
-        this.address = address;
+    public Integer getId() {
+        return id;
     }
 
-    public int getHash() {
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getHash() {
         return hash;
     }
 
-    public void setHash(int hash) {
+    public void setHash(Integer hash) {
         this.hash = hash;
     }
 
@@ -24,6 +30,8 @@ public class Realty {
     public void setAddress(String address) {
         this.address = address;
     }
+
+
     
     
 }

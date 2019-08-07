@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.FXMLLogonController">
-    
+<AnchorPane id="AnchorPane" prefHeight="430.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.FXMLLogonController">
+   <children>
+      <Label layoutX="283.0" layoutY="45.0" text="Logon">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Label>
+      <Label layoutX="91.0" layoutY="163.0" text="Nome:" />
+      <Label layoutX="93.0" layoutY="207.0" text="Email:" />
+      <Label layoutX="100.0" layoutY="250.0" text="CPF:" />
+      <JFXPasswordField fx:id="tfPassword" layoutX="475.0" layoutY="159.0" />
+      <JFXPasswordField fx:id="tfConfirmPassword" layoutX="475.0" layoutY="203.0" />
+      <Label layoutX="420.0" layoutY="176.0" text="Senha:" />
+      <Label layoutX="363.0" layoutY="220.0" text="Repita sua senha:" />
+      <JFXTextField fx:id="tfName" layoutX="148.0" layoutY="147.0" />
+      <JFXTextField fx:id="tfEmail" layoutX="148.0" layoutY="193.0" />
+      <JFXTextField fx:id="tfCpf" layoutX="148.0" layoutY="237.0" />
+      <JFXButton layoutX="578.0" layoutY="339.0" onAction="#logon" style="-fx-background-color: #0747a6; -fx-background-radius: 20;" text="Logon" textFill="WHITE" />
+      <Label fx:id="warn" layoutX="511.0" layoutY="259.0" text="*Senhas diferentes" textFill="RED" />
+      <JFXButton layoutX="575.0" layoutY="29.0" onAction="#backLogin" prefHeight="48.0" prefWidth="56.0" style="-fx-background-color: #f1f1f1; -fx-background-radius: 40;" text="⇒">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <tooltip>
+            <Tooltip text="voltar para login" />
+         </tooltip>
+      </JFXButton>
+   </children>
 </AnchorPane>

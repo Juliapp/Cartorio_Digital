@@ -33,11 +33,15 @@ public class FacadeFront {
             Logger.getLogger(FacadeFront.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        screenController.loadRootScreen(Settings.Scenes.LOGIN);
+        screenController.loadRootScreen(Settings.Scenes.CONECT_SERVER);
     }
     
     public Stage getRootStage(){
         return rootStage;
+    }
+    
+    public void loadLoginScreen(){
+        screenController.loadRootScreen(Scenes.LOGIN);
     }
 
     public void loadHomeScreen() {
@@ -50,6 +54,10 @@ public class FacadeFront {
 
     public void loadLogonScreen() {
         screenController.loadRootScreen(Settings.Scenes.LOGON);
+    }
+    
+    public void loadLoadingScreen(){
+        screenController.loadRootScreen(Settings.Scenes.LOADING);
     }
     
     public void loadAnchorPane(AnchorPane anchor, Scenes screen){

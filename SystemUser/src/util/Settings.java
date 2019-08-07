@@ -9,7 +9,7 @@ public class Settings {
         LOGIN("/view/screens/FXMLLogin.fxml"),
         HOME("/view/screens/FXMLHome.fxml"),
         CONECT_SERVER("/view/screens/FXMLServerConect.fxml"),
-//        LOGIN("/view/screens/FXMLLogin.fxml"),
+        LOADING("/view/screens/FXMLLoading.fxml"),
 //        HOME("/view/screens/FXMLHome.fxml"),
         LOGON("/view/screens/FXMLLogon.fxml");
         
