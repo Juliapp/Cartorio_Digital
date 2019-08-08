@@ -39,14 +39,13 @@ public class Peer {
     }         
 
     void send(byte[] bytes) {
-        if(socket.isConnected()){
-            try {
-                output.write(bytes, 0, bytes.length);
-                output.flush(); 
-            } catch (IOException ex) {
-                Logger.getLogger(Peer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            output.write(bytes, 0, bytes.length);
+            output.flush(); 
+        } catch (IOException ex) {
+            Logger.getLogger(Peer.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
     
 }

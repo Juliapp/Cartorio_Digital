@@ -2,8 +2,6 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FileController {
     
@@ -12,7 +10,7 @@ public class FileController {
         try {
             file.createNewFile();
         } catch (IOException ex) {
-            Logger.getLogger(FileController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
         
         return null;

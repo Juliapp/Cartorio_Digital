@@ -33,6 +33,7 @@ public class DataProcess {
         JSONObject message = new JSONObject(convertToString(inputedBytes));
         switch(message.getString("request")){
             case "conect":
+                System.out.println(message);
                 facadec.createNewPeerConection(message.getString("host"), message.getInt("port"));
                 break;
             case "saveUser":

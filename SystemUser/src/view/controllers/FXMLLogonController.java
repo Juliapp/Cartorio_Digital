@@ -1,6 +1,5 @@
 package view.controllers;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import facade.FacadeComunication;
@@ -8,8 +7,6 @@ import facade.FacadeFront;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,7 +32,7 @@ public class FXMLLogonController implements Initializable {
             facadec = FacadeComunication.getInstance();
             facadef = FacadeFront.getInstance();
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(FXMLLogonController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
         
         

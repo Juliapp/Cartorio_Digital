@@ -5,13 +5,12 @@ import facade.FacadeFront;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import static util.Settings.Scenes.MY_REALTIES;
+import static util.Settings.Scenes.NEW_REALTY;
 import static util.Settings.Scenes.SEARCH;
 
 public class FXMLHomeController implements Initializable {
@@ -28,7 +27,7 @@ public class FXMLHomeController implements Initializable {
         try {
             facade = FacadeFront.getInstance();
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(FXMLHomeController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
         
     }    
@@ -44,7 +43,7 @@ public class FXMLHomeController implements Initializable {
 
     @FXML
     private void regRealty(ActionEvent event) {
-        
+        facade.loadAnchorPane(anchorMenu, NEW_REALTY);
     }
 
 

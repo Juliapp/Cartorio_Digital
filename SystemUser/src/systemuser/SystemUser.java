@@ -15,7 +15,6 @@ public class SystemUser extends Application {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         launch(args);
-        
     }
     
 }

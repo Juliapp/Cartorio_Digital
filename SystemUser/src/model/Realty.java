@@ -1,10 +1,13 @@
 package model;
 
+import java.io.File;
+
 public class Realty {
     
     private Integer id;
     private Integer hash;
     private String address;
+    private File houseCharter;
     
 
     public Integer getId() {

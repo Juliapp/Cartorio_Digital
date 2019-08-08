@@ -1,6 +1,5 @@
 package controller;
 
-
 import facade.FacadeBack;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,13 +54,11 @@ public class ScreenController {
     public void loadRealties(VBox vbContainer) {
         vbContainer.getChildren().clear();
         ArrayList<Node> elements = new ArrayList<>();
-        int i = 0;
         List<Realty> ir = facadeb.getUserRealties();
         if(ir != null || ir.size() > 0){
             for (Realty realty : ir) {
                 actual = realty;
                 elements.add(createNewRealtyNode());
-                i++;            
             }
         }    
         vbContainer.getChildren().setAll(elements);
@@ -72,9 +69,8 @@ public class ScreenController {
         try {
             node = (Node)FXMLLoader.load(getClass().getResource(REALTY.getValue()));
         } catch (IOException ex) {
-            System.err.println("node nulo");
+            System.err.println("Realty node nulo");
         }
-       
         return node;
     }
     

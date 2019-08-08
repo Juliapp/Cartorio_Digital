@@ -7,8 +7,6 @@ import facade.FacadeFront;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +29,7 @@ public class FXMLServerConectController implements Initializable {
             facadef = FacadeFront.getInstance();
             facadec = FacadeComunication.getInstance();
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(FXMLServerConectController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
     }    
 
@@ -56,15 +54,15 @@ public class FXMLServerConectController implements Initializable {
         
         if(tbLocalH.isSelected()){
             facadec.initializeUserPeer(yourPort);
-            facadec.conectServer("localhost", serverPort, askConectionToServer("localhost", serverPort));
+            facadec.conectServer("localhost", serverPort, askConectionToPeer("localhost", serverPort));
         }
         else{
-            facadec.conectServer(txfHost.getText(), serverPort, askConectionToServer(facadec.getUserHost(), serverPort));          
+            facadec.conectServer(txfHost.getText(), serverPort, askConectionToPeer(facadec.getUserHost(), serverPort));          
         }
         facadef.loadLoginScreen();
     }
     
-    public String askConectionToServer(String host, int port){
+    public String askConectionToPeer(String host, int port){
         JSONObject message = new JSONObject();
         message.accumulate("request", "conect");
         message.accumulate("host", host);

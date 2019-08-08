@@ -18,20 +18,24 @@ public class ThreadPeer extends Thread{
     @Override
     public void run(){
         while(!Thread.currentThread().isInterrupted()){
-            if(hasMessageToSend){
-                if(isMessageToAll){
-                    Iterator<Peer> ip = peers.getIterPeers();
-                    while(ip.hasNext()){
-                        ip.next().send(convertToByte(bufferedMessage));
-                    }    
-                    hasMessageToSend = false;
+            try{
+                if(hasMessageToSend){
+                    if(isMessageToAll){
+                        Iterator<Peer> ip = peers.getIterPeers();
+                        while(ip.hasNext()){
+                            ip.next().send(convertToByte(bufferedMessage));
+                        }    
+                        hasMessageToSend = false;
+                    }
+                    else{
+                        aux.send(convertToByte(bufferedMessage));
+                        hasMessageToSend = false;
+                    }
                 }
-                else{
-                    aux.send(convertToByte(bufferedMessage));
-                    hasMessageToSend = false;
-                }
+            }catch(Exception ex){
+                System.err.println(ex);
+                Thread.currentThread().interrupt();
             }
-            
         }
     }
 

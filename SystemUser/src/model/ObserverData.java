@@ -13,8 +13,6 @@ import javafx.application.Platform;
         facadef = FacadeFront.getInstance();
     }
         
-        
-        
         @Override
         public void update(Observable o, Object o1) {
             boolean check = (boolean) o1;

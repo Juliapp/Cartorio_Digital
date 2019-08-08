@@ -12,7 +12,7 @@ public class FacadeBack {
     
     private UserData user;
     private static FacadeBack facade;
-    private DataCheck datacheck;
+    private final DataCheck datacheck;
     
     public static synchronized FacadeBack getInstance() throws IOException, ClassNotFoundException {
         return (facade == null) ? facade = new FacadeBack(): facade;

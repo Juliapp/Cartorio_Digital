@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class UserPeer {
+    private ServerSocket serverSock;
     private Socket socket;
     private final int port;
     private final String host;
@@ -21,12 +22,18 @@ public class UserPeer {
     void conect(){
         try {
             System.out.println("Esperando algum peer se conectar");
-            socket = new ServerSocket(port).accept();
+            serverSock = new ServerSocket(port);
+            socket = serverSock.accept();
             System.out.println("peer conectado");
             input = socket.getInputStream();
+            
         } catch (IOException ex) {
             System.out.println("ex conect");
         }
+    }
+    
+    public ServerSocket getServerSocket(){
+        return serverSock;
     }
     
     public Socket getSocket(){

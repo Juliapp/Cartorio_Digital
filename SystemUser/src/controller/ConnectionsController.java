@@ -7,8 +7,6 @@ import comunication.ThreadUserPeer;
 import comunication.UserPeer;
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ConnectionsController{
     private UserPeer userPeer;
@@ -26,7 +24,7 @@ public class ConnectionsController{
         try {
             userPeer = new UserPeer(port);
         } catch (UnknownHostException ex) {
-            Logger.getLogger(ConnectionsController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
     }
     
@@ -54,7 +52,7 @@ public class ConnectionsController{
                 threadPeer.UpdatePeers(othersPeers);
             }            
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionsController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
         return p;
     }
@@ -80,7 +78,7 @@ public class ConnectionsController{
             threadPeer.UpdatePeers(othersPeers);
             threadPeer.sendMessageToCourthouse(askConectionToServer);
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionsController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
     }
     

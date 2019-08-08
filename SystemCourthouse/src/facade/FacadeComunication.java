@@ -2,6 +2,7 @@ package facade;
 
 import controller.ConnectionsController;
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class FacadeComunication {
     private final ConnectionsController connectionsController;
@@ -15,7 +16,7 @@ public class FacadeComunication {
         return (facade == null) ? facade = new FacadeComunication(): facade;
     }    
     
-    public void initializeCourtHouse(int port){
+    public void initializeCourtHouse(int port) throws UnknownHostException{
         connectionsController.initializeUserPeer(port);
         connectionsController.initializeThreads();
     }

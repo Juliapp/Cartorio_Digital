@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import model.Realty;
 
 public class FXMLRealtyController implements Initializable {
@@ -16,7 +15,6 @@ public class FXMLRealtyController implements Initializable {
     private Realty realty;
     private FacadeFront facade;
     
-    private Label adress;
     @FXML   private Label something;
     @FXML   private Label address;
 
@@ -25,6 +23,7 @@ public class FXMLRealtyController implements Initializable {
         try {
             facade = FacadeFront.getInstance();
         } catch (IOException | ClassNotFoundException ex) {
+            System.err.println(ex);
         }
         realty = facade.getActualRealty();
         address.setText(realty.getAddress());
