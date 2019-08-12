@@ -1,6 +1,7 @@
 package controller;
 
 import JPAPersistence.DAO;
+import facade.FacadeBack;
 import facade.FacadeComunication;
 import java.io.IOException;
 import java.util.List;
@@ -13,11 +14,14 @@ public class ValidateNRespondController {
 
     private final DAO dao;
     private final FacadeComunication facadec;
+    private final FacadeBack facadeb;
     private UserData userAux;
+    
     
     public ValidateNRespondController() throws IOException, ClassNotFoundException{
         dao = new DAO();
         facadec = FacadeComunication.getInstance();
+        facadeb = FacadeBack.getInstance();
         userAux = new UserData();
     }
 
@@ -52,6 +56,13 @@ public class ValidateNRespondController {
             System.out.println(reply.toString());
         }
         
+        facadec.sendMessage(reply.toString(), message.getString("host") , message.getInt("port"));
+    }
+    
+    public void repassRealty(JSONObject message){
+        JSONObject reply = new JSONObject();
+        reply.accumulate("reply", "confirmFirstSignarute");
+        reply.accumulate("publicKey", facadeb.encodePublicKey());
         facadec.sendMessage(reply.toString(), message.getString("host") , message.getInt("port"));
     }
     

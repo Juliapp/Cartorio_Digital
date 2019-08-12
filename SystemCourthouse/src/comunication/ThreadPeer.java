@@ -30,6 +30,13 @@ public class ThreadPeer extends Thread{
                     aux.send(convertToByte(bufferedMessage));
                     hasMessageToSend = false;
                 }
+                
+//                try {
+//                    //faz a thread esperar ter uma nova mensagem pra mandar 
+//                    Thread.currentThread().wait();
+//                } catch (InterruptedException ex) {
+//                    System.err.println(ex);
+//                }
             }
             
         }
@@ -49,6 +56,7 @@ public class ThreadPeer extends Thread{
         bufferedMessage = message;
         hasMessageToSend = true;
         isMessageToAll = false;
+//        Thread.currentThread().notify();
     }
     
     public byte[] convertToByte(String string) {

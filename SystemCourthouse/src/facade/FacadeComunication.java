@@ -14,7 +14,7 @@ public class FacadeComunication {
     
     public static synchronized FacadeComunication getInstance() throws IOException, ClassNotFoundException {
         return (facade == null) ? facade = new FacadeComunication(): facade;
-    }    
+    }
     
     public void initializeCourtHouse(int port) throws UnknownHostException{
         connectionsController.initializeUserPeer(port);

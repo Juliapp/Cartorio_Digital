@@ -3,7 +3,7 @@ package comunication;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import controller.DataProcess;
+import controller.OutputedDataProcess;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,14 +15,14 @@ public class ThreadUserPeer extends Thread {
     private final List<InputStream> inputs;
     private final byte[] emptyByteArrayReference;
     private byte[] reciveReference;
-    private final DataProcess dataProcess;
+    private final OutputedDataProcess dataProcess;
 
     //pega o input com o singleton
     public ThreadUserPeer(UserPeer userPeer) {
         inputs = new ArrayList<>();
         this.userPeer = userPeer;
         emptyByteArrayReference = new byte[]{};
-        dataProcess = new DataProcess();
+        dataProcess = new OutputedDataProcess();
     }
 
     @Override

@@ -4,6 +4,10 @@ import facade.FacadeBack;
 import facade.FacadeComunication;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Realty;
@@ -11,20 +15,20 @@ import model.UserData;
 import org.json.JSONObject;
 
 
-public class DataProcess {
+public class OutputedDataProcess {
     private FacadeBack facadeb;
     private FacadeComunication facadec;
     private UserData userAux;
     private Realty realtyAux;
     
-    public DataProcess(){
+    public OutputedDataProcess(){
         try {
             facadeb = FacadeBack.getInstance();
             facadec = FacadeComunication.getInstance();
             userAux = new UserData();
             realtyAux = new Realty();
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(DataProcess.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OutputedDataProcess.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -44,14 +48,20 @@ public class DataProcess {
                 facadeb.saveUser(userAux);
                 userAux.setAllNull();
                 break;
-            case "validate":
+            case "validateUser":
                 facadeb.validate(message);
                 userAux.setAllNull();
                 break;
-            case "saveRealty":
+            case "signNewRealty":
+        {
+            try {
+                Realty realty = facadeb.signNewRealty(message.getJSONObject("realtyInfos"));
                 
+            } catch (InvalidKeySpecException | NoSuchAlgorithmException | InvalidKeyException | SignatureException | IOException ex) {
+                System.err.println(ex);
+            }
+        }
             default:   
-                realtyAux.setAddress(message.getString("address"));
                 break;
         }
     }

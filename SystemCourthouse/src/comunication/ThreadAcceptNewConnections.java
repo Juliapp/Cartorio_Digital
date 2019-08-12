@@ -6,7 +6,7 @@ import java.net.Socket;
 
 public class ThreadAcceptNewConnections extends Thread{
    private final ServerSocket serverSocket;
-    private ThreadUserPeer threadUserPeer;
+    private final ThreadUserPeer threadUserPeer;
 
     public ThreadAcceptNewConnections(ServerSocket serverSocket, ThreadUserPeer threadUserPeer) {
         this.serverSocket = serverSocket;
@@ -25,8 +25,4 @@ public class ThreadAcceptNewConnections extends Thread{
 
         }
     }
-
-    
-   
-    
 }

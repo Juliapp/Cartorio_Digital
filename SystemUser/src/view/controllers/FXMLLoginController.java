@@ -34,7 +34,7 @@ public class FXMLLoginController implements Initializable {
     @FXML
     private void checkLogin(ActionEvent event){ 
         JSONObject message = new JSONObject();
-        message.accumulate("request", "validate");
+        message.accumulate("request", "validateUser");
         message.accumulate("email", txfEmail.getText());
         message.accumulate("password", txfPassword.getText());
         message.accumulate("host", facadec.getUserHost());

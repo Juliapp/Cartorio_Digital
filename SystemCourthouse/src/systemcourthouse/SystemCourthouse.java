@@ -13,7 +13,7 @@ public class SystemCourthouse {
             FacadeComunication facadec = FacadeComunication.getInstance();
             facadec.initializeCourtHouse(conect());
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(SystemCourthouse.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
     }
     

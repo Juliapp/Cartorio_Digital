@@ -3,8 +3,6 @@ package comunication;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Peer {
     private Socket socket;
@@ -22,7 +20,7 @@ public class Peer {
             socket = createSocket(ip, port);
             output = socket.getOutputStream();
         } catch (IOException ex) {
-            //tratar isso aqui
+            System.err.println(ex);
         }
         
     }
@@ -56,7 +54,7 @@ public class Peer {
             output.write(bytes, 0, bytes.length);
             output.flush(); 
         } catch (IOException ex) {
-            Logger.getLogger(Peer.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
     }
     

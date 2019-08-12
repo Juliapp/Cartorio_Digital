@@ -13,7 +13,7 @@
       <VBox alignment="TOP_RIGHT" prefHeight="479.0" prefWidth="230.0" style="-fx-background-color: #0747a6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Separator prefHeight="152.0" prefWidth="230.0" visible="false" />
-            <Separator prefHeight="34.0" prefWidth="230.0" />
+            <Separator prefHeight="34.0" prefWidth="230.0" visible="false" />
             <Separator prefHeight="5.0" prefWidth="230.0" visible="false" />
             <Separator prefHeight="5.0" prefWidth="230.0" visible="false" />
             <Separator prefHeight="5.0" prefWidth="230.0" visible="false" />

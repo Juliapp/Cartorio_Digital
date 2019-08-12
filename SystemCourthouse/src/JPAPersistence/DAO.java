@@ -1,5 +1,8 @@
 package JPAPersistence;
 
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -187,6 +190,26 @@ public class DAO {
             }            
         }
         return null;
+    }
+
+    public void persistCourtHouse(PrivateKey prKey, PublicKey puKey) {
+        if(getUserById("courthouse") == null){
+            UserData court = new UserData();
+            court.setCpf("courthouse");
+            court.setPrKey(prKey);
+            court.setPuKey(puKey);
+            saveUser(court);
+        }
+    }
+
+    public void persistCourtHouse(KeyPair keyPair) {
+        if(getUserById("courthouse") == null){
+            UserData court = new UserData();
+            court.setCpf("courthouse");
+            court.setPrKey(keyPair.getPrivate());
+            court.setPuKey(keyPair.getPublic());
+            saveUser(court);
+        }        
     }
     
 }

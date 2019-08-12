@@ -3,8 +3,6 @@ package model;
 import facade.FacadeBack;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.JSONObject;
 
 public class DataProcess {
@@ -14,7 +12,7 @@ public class DataProcess {
         try {
             facadeb = FacadeBack.getInstance();
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(DataProcess.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
     }
     

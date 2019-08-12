@@ -8,13 +8,13 @@ import org.json.JSONObject;
 
 @Entity
 public class Realty {
-    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)    
     private Integer id;
-    private Integer hash;
+    private byte[] hash;
     private String address;
-    
+    private byte[] houseCharter;
+    private byte[] signature;
 
     public Integer getId() {
         return id;
@@ -24,13 +24,15 @@ public class Realty {
         this.id = id;
     }
 
-    public Integer getHash() {
+    public byte[] getHash() {
         return hash;
     }
 
-    public void setHash(Integer hash) {
+    public void setHash(byte[] hash) {
         this.hash = hash;
     }
+
+
 
     public String getAddress() {
         return address;
@@ -40,15 +42,28 @@ public class Realty {
         this.address = address;
     }
 
+    public byte[] getHouseCharter() {
+        return houseCharter;
+    }
+
+    public void setHouseCharter(byte[] houseCharter) {
+        this.houseCharter = houseCharter;
+    }
+
+    public byte[] getSignature() {
+        return signature;
+    }
+    
+    public void mergeNewSignature(byte[] signature, byte[] hash){
+        this.signature = signature;
+        this.hash = hash;
+    }
+    
     @Override
     public String toString() {
         JSONObject ts = new JSONObject();
         ts.accumulate("hash", hash);
         ts.accumulate("address", address);
         return ts.toString();
-    }
-
-
-    
-    
+    }    
 }
