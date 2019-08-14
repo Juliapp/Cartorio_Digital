@@ -28,7 +28,7 @@ public class UserPeer {
             input = socket.getInputStream();
             
         } catch (IOException ex) {
-            System.out.println("ex conect");
+            System.err.println("ex conect");
         }
     }
     

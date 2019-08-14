@@ -5,7 +5,6 @@
     <!-- Implementação do JPA -->
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- Lista de entidades -->
-    <class>UserData</class>
     <class>Realty</class>
     <properties>
       <!-- Propriedades JDBC -->

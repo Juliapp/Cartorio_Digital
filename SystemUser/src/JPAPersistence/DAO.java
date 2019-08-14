@@ -42,7 +42,20 @@ public class DAO {
         }        
         
         return null;
-    }    
+    }
+    
+    public Realty findRealty(Integer id){
+        EntityManager em = new ConectionFactory().getConnection();
+        try {
+            return em.find(Realty.class, id);
+        } catch (Exception e) {
+            System.err.println(e);
+        }finally{
+            em.close();
+        }        
+        
+        return null;
+    } 
     
 }
 

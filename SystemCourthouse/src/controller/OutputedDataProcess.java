@@ -1,43 +1,46 @@
 package controller;
 
+import JPAPersistence.DAO;
 import facade.FacadeBack;
 import facade.FacadeComunication;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
+import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Realty;
 import model.UserData;
 import org.json.JSONObject;
-
+import util.Cript;
 
 public class OutputedDataProcess {
+
     private FacadeBack facadeb;
     private FacadeComunication facadec;
     private UserData userAux;
     private Realty realtyAux;
-    
-    public OutputedDataProcess(){
+    private DAO dao;
+    private Cript cript;
+
+    public OutputedDataProcess() {
         try {
             facadeb = FacadeBack.getInstance();
             facadec = FacadeComunication.getInstance();
             userAux = new UserData();
             realtyAux = new Realty();
+            dao = new DAO();
+            cript = new Cript();
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(OutputedDataProcess.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
     }
-    
-    
-    public void pullMessage(byte[] inputedBytes){
-        JSONObject message = new JSONObject(convertToString(inputedBytes));
-        switch(message.getString("request")){
+
+    public void pullMessage(byte[] inputedBytes) {
+        JSONObject message = new JSONObject(cript.UTF8encode(inputedBytes));
+        JSONObject reply = null;
+        switch (message.getString("request")) {
             case "conect":
-                System.out.println(message);
                 facadec.createNewPeerConection(message.getString("host"), message.getInt("port"));
                 break;
             case "saveUser":
@@ -45,28 +48,99 @@ public class OutputedDataProcess {
                 userAux.setEmail(message.getString("email"));
                 userAux.setName(message.getString("name"));
                 userAux.setPassword(message.getString("password"));
+
+                try {
+                    message.getString("id");
+                } catch (org.json.JSONException ex) {
+                    try {
+                        KeyPair pair = facadeb.DSAkeyPairGenerator();
+                        userAux.setPrKey(facadeb.encodePrivateKey(pair.getPrivate()));
+                        userAux.setPuKey(facadeb.encodePublicKey(pair.getPublic()));
+                    } catch (NoSuchAlgorithmException ex1) {
+                        System.err.println(ex1);
+                    }
+                }
+
                 facadeb.saveUser(userAux);
                 userAux.setAllNull();
                 break;
+
             case "validateUser":
-                facadeb.validate(message);
-                userAux.setAllNull();
+                reply = new JSONObject();
+                userAux = dao.getUserByEmail(message.getString("email"));
+                if (userAux != null) {
+                    if (userAux.getPassword().equals(message.getString("password"))) {
+                        try {
+                            FacadeBack facadeb = FacadeBack.getInstance();
+                            reply.accumulate("reply", "sucessful login");
+                            reply.accumulate("cpf", userAux.getCpf());
+                            reply.accumulate("email", userAux.getEmail());
+                            reply.accumulate("name", userAux.getName());
+                            reply.accumulate("passsword", userAux.getPassword());
+                            reply.accumulate("privateKey", userAux.getPrKey());
+                            reply.accumulate("publicKey", userAux.getPuKey());
+                            reply.accumulate("realties", userAux.getR());
+                            facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
+                        } catch (IOException | ClassNotFoundException ex) {
+                            System.err.println(ex);
+                        }
+                    } else {
+                        reply.accumulate("reply", "Erro");
+                        reply.accumulate("message", "password incorrect");
+                    }
+                    userAux.setAllNull();
+                } else {
+                    reply.accumulate("reply", "Erro");
+                    reply.accumulate("message", "email is not registrated");
+                    System.out.println(message.toString());
+                    System.out.println(reply.toString());
+                }
+
+                facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
                 break;
-            case "signNewRealty":
-        {
-            try {
-                Realty realty = facadeb.signNewRealty(message.getJSONObject("realtyInfos"));
-                
-            } catch (InvalidKeySpecException | NoSuchAlgorithmException | InvalidKeyException | SignatureException | IOException ex) {
-                System.err.println(ex);
-            }
-        }
-            default:   
+            case "signNewRealty": 
+                reply = new JSONObject();
+                try {
+                    Integer i = facadeb.signNewRealty(message.getJSONObject("realtyInfos"));
+                    if(i.compareTo(0) > 0){
+                        reply.accumulate("reply", "sucessful sign");
+                        reply.accumulate("permitidId", i.intValue());
+                        reply.accumulate("publicKey", facadeb.getCourt().getPuKey());
+                        facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
+                    }else{
+                        reply.accumulate("reply", "Erro");
+                        reply.accumulate("message", "something gone wrong on signature");                        
+                    }
+
+                } catch (InvalidKeySpecException | NoSuchAlgorithmException | InvalidKeyException | SignatureException | IOException ex) {
+                    System.err.println(ex);
+                }
+            
+                break;
+            case "addRealty":
+                UserData user = facadeb.getUserById(message.getString("Id"));
+                user.addRealty(message.getInt("rId"));
+                if(facadeb.saveUser(user) != null){
+                    reply = new JSONObject();
+                    reply.accumulate("reply", "sucessful save");
+                    reply.accumulate("rId", message.getInt("rId"));
+                    reply.accumulate("message", "Your data was susessful saved");
+                    facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
+                }
+            default:
                 break;
         }
     }
-    
-    public String convertToString(byte[] dados) {
-        return new String(dados, StandardCharsets.UTF_8);
-    }    
+
+    public void repassRealty(JSONObject message) {
+        try {
+            FacadeBack facadeb = FacadeBack.getInstance();
+            JSONObject reply = new JSONObject();
+            reply.accumulate("reply", "confirmFirstSignarute");
+            reply.accumulate("publicKey", facadeb.getCourt().getPuKey());
+            facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
+        } catch (IOException | ClassNotFoundException ex) {
+            System.err.println(ex);
+        }
+    }
 }

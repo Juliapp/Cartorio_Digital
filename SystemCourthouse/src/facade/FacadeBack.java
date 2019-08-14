@@ -2,10 +2,12 @@ package facade;
 
 import JPAPersistence.DAO;
 import controller.SecurityManagerController;
-import controller.ValidateNRespondController;
 import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
@@ -18,23 +20,22 @@ public class FacadeBack {
     private static FacadeBack facade;
     private UserData courthouse;
     private final DAO dao;
-    private final ValidateNRespondController validate;
-    private SecurityManagerController managerSecurity;
-    
-    
+    private final SecurityManagerController managerSecurity;
     
     private FacadeBack() throws IOException, ClassNotFoundException{
         dao = new DAO();
-        validate = new ValidateNRespondController();
+        managerSecurity = new SecurityManagerController();
     }
     
     public static synchronized FacadeBack getInstance() throws IOException, ClassNotFoundException {
         return (facade == null) ? facade = new FacadeBack(): facade;
     }
     
-    public void initialize(){
-        dao.persistCourtHouse(DSAkeyPairGenerator());     
-        managerSecurity = new SecurityManagerController(); 
+    public void initialize() throws NoSuchAlgorithmException{
+//        KeyPair pair = DSAkeyPairGenerator();
+//        System.out.println(encodePrivateKey(pair.getPrivate()));
+        courthouse = dao.persistCourtHouse(/*encodePrivateKey(pair.getPrivate()),
+        encodePublicKey(pair.getPublic())*/); 
     }
     
     public UserData getCourt(){
@@ -77,7 +78,7 @@ public class FacadeBack {
         return dao.removeUser(id);
     }
     
-    public List<Realty> getUserRealties(String id){
+    public List<Object> getUserRealties(String id){
         return dao.getUserRealties(id);
     }
     
@@ -85,15 +86,20 @@ public class FacadeBack {
         return dao.getUserByEmail(email);
     }
 
-    public void validate(JSONObject message) {
-        validate.validateUser(message);
-    }
-
-    public Realty signNewRealty(JSONObject jsonObject) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
-        return managerSecurity.signDocument(jsonObject);
+    public Integer signNewRealty(JSONObject jsonObject) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
+        return managerSecurity.signDocument(courthouse.getPrKey(), jsonObject);
     }
     
-    public String encodePublicKey(){
-        return managerSecurity.encodePublicKey();
+    public String encodePublicKey(PublicKey publicKey){
+        return managerSecurity.encodePublicKey(publicKey);
+    }    
+    
+    public String encodePrivateKey(PrivateKey privateKey){
+        return managerSecurity.encodePrivateKey(privateKey);
+    }      
+    
+    public KeyPair DSAkeyPairGenerator() throws NoSuchAlgorithmException, NoSuchAlgorithmException{
+        return managerSecurity.DSAkeyPairGenerator();
     }
+    
 }

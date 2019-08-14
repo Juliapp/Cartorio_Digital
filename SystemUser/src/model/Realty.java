@@ -1,5 +1,6 @@
 package model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,7 @@ public class Realty {
     private Integer id;
     private byte[] hash;
     private String address;
+    @Column(length = 3000)
     private byte[] houseCharter;
     private byte[] signature;
 

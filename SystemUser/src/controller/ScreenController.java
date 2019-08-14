@@ -1,5 +1,6 @@
 package controller;
 
+import JPAPersistence.DAO;
 import facade.FacadeBack;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Realty;
+import org.json.JSONArray;
 import util.Settings.Scenes;
 import static util.Settings.Scenes.REALTY;
 
@@ -20,10 +22,12 @@ public class ScreenController {
     private final FacadeBack facadeb;
     private final Stage stage;
     private Realty actual;
+    private final DAO dao;
 
     public ScreenController(Stage rootStage) throws IOException, ClassNotFoundException {
         stage = rootStage = new Stage();
         facadeb = FacadeBack.getInstance();
+        dao = new DAO();
     }
 
     public void loadRootScreen(Scenes screen){
@@ -54,14 +58,19 @@ public class ScreenController {
     public void loadRealties(VBox vbContainer) {
         vbContainer.getChildren().clear();
         ArrayList<Node> elements = new ArrayList<>();
-        List<Realty> ir = facadeb.getUserRealties();
-        if(ir != null || ir.size() > 0){
-            for (Realty realty : ir) {
-                actual = realty;
-                elements.add(createNewRealtyNode());
-            }
-        }    
-        vbContainer.getChildren().setAll(elements);
+        try{
+            List<Integer> list = facadeb.getUser().getRealties();
+            if(list.size() > 0){
+                for (Integer id : list) {
+                    actual = dao.findRealty(((Integer) id));
+                    elements.add(createNewRealtyNode());                       
+                }
+            }      
+        }catch(org.json.JSONException ex){
+            
+        }finally{
+            vbContainer.getChildren().setAll(elements);
+        }        
     }
     
     private Node createNewRealtyNode(){

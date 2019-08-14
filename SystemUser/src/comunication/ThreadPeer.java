@@ -2,6 +2,7 @@ package comunication;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import util.Cript;
 
 public class ThreadPeer extends Thread{
     private PeersMap peers;
@@ -10,15 +11,21 @@ public class ThreadPeer extends Thread{
     private boolean isMessageToAll;
     private Peer aux;
     private String bufferedMessage;
+    private final Cript cript;
+    
+    private final PC pc;
     
     public ThreadPeer(){
         hasMessageToSend = false;
+        pc = new PC();
+        cript = new Cript();
     }
     
     @Override
     public void run(){
         while(!Thread.currentThread().isInterrupted()){
             try{
+                pc.makeThreadWait();
                 if(hasMessageToSend){
                     if(isMessageToAll){
                         Iterator<Peer> ip = peers.getIterPeers();
@@ -32,7 +39,7 @@ public class ThreadPeer extends Thread{
                         hasMessageToSend = false;
                     }
                 }
-            }catch(Exception ex){
+            }catch(InterruptedException ex){
                 System.err.println(ex);
                 Thread.currentThread().interrupt();
             }
@@ -40,8 +47,14 @@ public class ThreadPeer extends Thread{
     }
 
     void sendMessageToAll(String message) {
+        bufferedMessage = message;
         hasMessageToSend = true;
         isMessageToAll = true;
+        try {
+            pc.makeThreadWakeUp();
+        } catch (InterruptedException ex) {
+            System.err.println(ex);
+        }
     }
     
     public void UpdatePeers(PeersMap peers) {
@@ -53,6 +66,11 @@ public class ThreadPeer extends Thread{
         bufferedMessage = message;
         hasMessageToSend = true;
         isMessageToAll = false;
+        try {
+            pc.makeThreadWakeUp();
+        } catch (InterruptedException ex) {
+            System.err.println(ex);
+        }
     }
 
     public void sendMessageToCourthouse(String message) {
@@ -60,10 +78,29 @@ public class ThreadPeer extends Thread{
         bufferedMessage = message;
         hasMessageToSend = true;
         isMessageToAll = false;
+        try {
+            pc.makeThreadWakeUp();
+        } catch (InterruptedException ex) {
+            System.err.println(ex);
+        }
     }    
     
     public byte[] convertToByte(String string) {
-        return string.getBytes(StandardCharsets.UTF_8);
-    }    
+        return cript.UTF8decode(string);
+    }
     
+    
+    private static class PC{
+        public void makeThreadWait() throws InterruptedException {
+            synchronized (this) {
+                wait();
+            }
+        }
+
+        public void makeThreadWakeUp() throws InterruptedException {
+            synchronized (this) {
+                notify();
+            }
+        }        
+    }
 }

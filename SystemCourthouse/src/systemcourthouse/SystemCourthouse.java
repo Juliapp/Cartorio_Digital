@@ -1,10 +1,10 @@
 package systemcourthouse;
 
+import facade.FacadeBack;
 import facade.FacadeComunication;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class SystemCourthouse {
 
@@ -12,7 +12,10 @@ public class SystemCourthouse {
         try {
             FacadeComunication facadec = FacadeComunication.getInstance();
             facadec.initializeCourtHouse(conect());
-        } catch (IOException | ClassNotFoundException ex) {
+            
+            FacadeBack facadeb = FacadeBack.getInstance();
+            facadeb.initialize();
+        } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException ex) {
             System.err.println(ex);
         }
     }

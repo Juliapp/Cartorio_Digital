@@ -14,7 +14,6 @@ import java.util.Arrays;
 import java.util.List;
 import model.ManagerSecurity;
 import model.ObserverData;
-import model.Realty;
 import model.UserData;
 
 public class FacadeBack {
@@ -58,7 +57,7 @@ public class FacadeBack {
         return user;
     }
 
-    public List<Realty> getUserRealties() {
+    public List<Integer> getUserRealties() {
         return user.getRealties();
     }
     
@@ -76,12 +75,16 @@ public class FacadeBack {
         return managerSecurity.decodePublicKey(publicKey);
     }
     
-    public Integer sighDocument(PrivateKey privateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
-        return managerSecurity.sighDocument(privateKey, realty);
+    public PrivateKey decodePrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException{
+        return managerSecurity.decodePrivateKey(privateKey);
     }
     
-    public boolean checkDocument(PublicKey sellerPublicKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
-        return managerSecurity.checkDocument(sellerPublicKey, realty);
-    }    
+    public Integer sighDocument(String sellerPublicKey, String privateKey, int rId) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
+        return managerSecurity.sighDocument(sellerPublicKey, privateKey, rId);
+    }
+
+    public int addNewRealty(int aInt, String publicKey) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException {
+        return sighDocument(publicKey, user.getPrKey(), aInt);
+    }
 
 }

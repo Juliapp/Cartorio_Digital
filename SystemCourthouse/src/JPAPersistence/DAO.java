@@ -1,8 +1,5 @@
 package JPAPersistence;
 
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -167,15 +164,15 @@ public class DAO {
         return user;
     }
     
-    public List<Realty> getUserRealties(String id){
-        List<Realty> realties = new ArrayList<>();
+    public List<Object> getUserRealties(String id){
+        List<Object> realties = new ArrayList<>();
         
         UserData user = getUserById(id);
         if(user != null){
-            List<Integer> ids = user.getReltiesIds();
+            List<Object> ids = user.getRealties();
 
             ids.forEach((id1) -> {
-                realties.add(findRealtyById(id1));
+                realties.add(findRealtyById((Integer)id1));
             });
         }
         
@@ -185,31 +182,28 @@ public class DAO {
     public UserData getUserByEmail(String email){
         List<UserData> users = getAllUsers();
         for (UserData user : users) {
-            if(user.getEmail().equals(email)){
-                return user;
-            }            
+            try{
+                if(user.getEmail().equals(email)){
+                    return user;
+                }
+            }catch(NullPointerException e){
+                System.err.println("invalid login");
+            }
+            
         }
         return null;
     }
 
-    public void persistCourtHouse(PrivateKey prKey, PublicKey puKey) {
-        if(getUserById("courthouse") == null){
-            UserData court = new UserData();
-            court.setCpf("courthouse");
-            court.setPrKey(prKey);
-            court.setPuKey(puKey);
-            saveUser(court);
-        }
+    public UserData persistCourtHouse() {
+        return getUserById("courthouse");
     }
 
-    public void persistCourtHouse(KeyPair keyPair) {
-        if(getUserById("courthouse") == null){
-            UserData court = new UserData();
-            court.setCpf("courthouse");
-            court.setPrKey(keyPair.getPrivate());
-            court.setPuKey(keyPair.getPublic());
-            saveUser(court);
-        }        
+    public UserData persistCourtHouse(String encodePrivateKey, String encodePublicKey) {
+        UserData user = new UserData();
+        user.setCpf("courthouse");
+        user.setPrKey(encodePrivateKey);
+        user.setPuKey(encodePublicKey);
+        return saveUser(user);
     }
     
 }

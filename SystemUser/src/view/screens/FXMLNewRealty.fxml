@@ -29,5 +29,10 @@
          </font>
       </JFXButton>
       <Label fx:id="charterPath" layoutX="202.0" layoutY="229.0" text="Label" />
+      <Label fx:id="warn" layoutX="127.0" layoutY="344.0" text="*Os dois campos devem estar preenchidos" textFill="RED">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

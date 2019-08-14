@@ -1,11 +1,10 @@
 package model;
 
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.json.JSONArray;
 
 @Entity
 public class UserData {
@@ -14,20 +13,22 @@ public class UserData {
     private String name;
     private String email;
     private String password;
-    private PrivateKey prKey;
-    private PublicKey puKey;
-    private final ArrayList<Integer> realties;
+    @Column(length = 1000)
+    private String prKey;
+    @Column(length = 1000)
+    private String puKey;
+    private String realties;
     
     public UserData(String cpf, String name, String email, String password) {
         this.cpf = cpf;
         this.name = name;
         this.email = email;
         this.password = password;
-        realties = new ArrayList<>();
+        realties = new JSONArray().toString();
     }
     
     public UserData() {
-        realties = new ArrayList<>();
+        realties = new JSONArray().toString();
     }
 
     public String getName() {
@@ -62,35 +63,44 @@ public class UserData {
         this.password = password;
     }
     
-    public List<Integer> getReltiesIds(){
-        return realties;
-    }
-    
     public void addRealty(Integer realtyId){
-        realties.add(realtyId);
+        JSONArray j = new JSONArray(realties);
+        System.out.println(j);
+        j.put(realtyId);
+        realties = j.toString();
     }
     
     public void removeRealty(Integer realtyId){
-        realties.remove(realtyId);
+        JSONArray array = new JSONArray(realties);
+        for (int i = 0; i < array.length(); i++) {
+            if(((Integer)array.get(i)).equals(realtyId)){
+                array.remove(i);
+                return;
+            }            
+        }
     }
-
-    public List<Realty> getRealties() {
-        return (List)realties;
+   
+    public List<Object> getRealties() {
+        return new JSONArray(realties).toList();
     }
+    
+   public String getR(){
+       return realties;
+   }
 
-    public PrivateKey getPrKey() {
+    public String getPrKey() {
         return prKey;
     }
 
-    public void setPrKey(PrivateKey prKey) {
+    public void setPrKey(String prKey) {
         this.prKey = prKey;
     }
 
-    public PublicKey getPuKey() {
+    public String getPuKey() {
         return puKey;
     }
 
-    public void setPuKey(PublicKey puKey) {
+    public void setPuKey(String puKey) {
         this.puKey = puKey;
     }
     
