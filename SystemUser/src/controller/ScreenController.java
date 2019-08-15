@@ -9,13 +9,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Realty;
-import org.json.JSONArray;
 import util.Settings.Scenes;
+import static util.Settings.Scenes.PASSSTAGE;
 import static util.Settings.Scenes.REALTY;
+import static util.Settings.Scenes.RECIVESTAGE;
 
 public class ScreenController {
 
@@ -61,10 +63,12 @@ public class ScreenController {
         try{
             List<Integer> list = facadeb.getUser().getRealties();
             if(list.size() > 0){
-                for (Integer id : list) {
-                    actual = dao.findRealty(((Integer) id));
-                    elements.add(createNewRealtyNode());                       
-                }
+                list.stream().map((id) -> {
+                    actual = dao.findRealty(id);
+                    return id;
+                }).forEachOrdered((_item) -> {
+                    elements.add(createNewRealtyNode());
+                });
             }      
         }catch(org.json.JSONException ex){
             
@@ -87,5 +91,51 @@ public class ScreenController {
         return actual;
     }
     
+    public void newAlertError(String title, String mensege) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setTitle(title);
+        a.setContentText(mensege);
+        a.show();
+    }
+
+    public void newAlertInformation(String title, String mensege) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle(title);
+        a.setContentText(mensege);
+        a.show();
+    }
+    
+    public void newAlertWarn(String title, String mensege) {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setTitle(title);
+        a.setContentText(mensege);
+        a.show();
+    }    
+
+    public void passScreen() {
+        Stage passStage = new Stage();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource(PASSSTAGE.getValue()));
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+        Scene scene = new Scene(root);
+        passStage.setScene(scene);
+        passStage.show();              
+    }
+   
+    public void reciveScreen() {
+        Stage passStage = new Stage();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource(RECIVESTAGE.getValue()));
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+        Scene scene = new Scene(root);
+        passStage.setScene(scene);
+        passStage.show();              
+    }
 }    
 

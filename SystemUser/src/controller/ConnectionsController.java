@@ -43,33 +43,6 @@ public class ConnectionsController{
         new Thread(threadPeer).start();
     }
     
-    
-    public Peer addPeer(String host, int port){
-        Peer p = new Peer(host, port);
-        try {
-            p.conect();
-            if(othersPeers.addPeer(p) != null){
-                threadPeer.UpdatePeers(othersPeers);
-            }            
-        } catch (IOException ex) {
-            System.err.println(ex);
-        }
-        return p;
-    }
-        
-    public Peer getPeer(String key){
-        return othersPeers.getPeer(key);
-    }
-
-    public void sendMessage(String message, String host, int port) {
-        addPeer(host, port);
-        threadPeer.sendMessage(message, host, port);
-    }
-    
-    public void sendMessageToCourthouse(String message) {
-        threadPeer.sendMessageToCourthouse(message);
-    }  
-
     public void conectCourtHouse(String host, int port, String askConectionToServer) {
         try {
             Peer p = new Peer(host, port);
@@ -82,4 +55,28 @@ public class ConnectionsController{
         }
     }
     
+    public Peer addPeer(String host, int port, String askConection){
+        try {
+            Peer p = new Peer(host, port);
+            p.conect();
+            othersPeers.addPeer(p);
+            threadPeer.sendMessage(askConection, host, port);
+            return p;
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+        return null;
+    }
+        
+    public Peer getPeer(String key){
+        return othersPeers.getPeer(key);
+    }
+
+    public void sendMessage(String message, String host, int port) {
+        threadPeer.sendMessage(message, host, port);
+    }
+    
+    public void sendMessageToCourthouse(String message) {
+        threadPeer.sendMessageToCourthouse(message);
+    }  
 }

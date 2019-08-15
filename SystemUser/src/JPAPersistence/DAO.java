@@ -1,6 +1,6 @@
 package JPAPersistence;
 
-import comunication.JPAPersistence.ConectionFactory;
+import JPAPersistence.ConectionFactory;
 import javax.persistence.EntityManager;
 import model.Realty;
 

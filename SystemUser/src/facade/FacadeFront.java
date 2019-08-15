@@ -2,6 +2,7 @@ package facade;
 
 import controller.ScreenController;
 import java.io.IOException;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -61,4 +62,24 @@ public class FacadeFront {
     public Realty getActualRealty() {
         return screenController.getActualRealty();
     }
+    
+    public void newAlertError(String title, String mensege) {
+        screenController.newAlertError(title, mensege);
+    }
+
+    public void newAlertInformation(String title, String mensege) {
+        screenController.newAlertInformation(title, mensege);
+    }
+    
+    public void newAlertWarn(String title, String mensege) {
+        screenController.newAlertWarn(title, mensege);
+    }
+    
+    public void passScreen(){
+        screenController.passScreen();
+    }
+    
+    public void reciveScreen(){
+        screenController.reciveScreen();
+    }    
 }

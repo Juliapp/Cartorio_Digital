@@ -2,6 +2,7 @@ package model;
 
 import facade.FacadeBack;
 import facade.FacadeComunication;
+import facade.FacadeFront;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -13,12 +14,14 @@ import util.Cript;
 public class DataProcess {
     private FacadeBack facadeb;
     private FacadeComunication facadec;
+    private FacadeFront facadef;
     private final Cript cript;
     
     public DataProcess(){
         cript = new Cript();
         try {
             facadeb = FacadeBack.getInstance();
+            facadef = FacadeFront.getInstance();
         } catch (IOException | ClassNotFoundException ex) {
             System.err.println(ex);
         }
@@ -30,8 +33,7 @@ public class DataProcess {
         if(message.getString("reply") != null){
             switch(message.getString("reply")){
                 case "Erro":
-                    String erro = message.getString("message");
-                    //fazer um pop up
+                    facadef.newAlertError("erro", message.getString("message"));
                     facadeb.checkFalse();
                     break;
                 case "sucessful login": 
@@ -39,7 +41,7 @@ public class DataProcess {
                     user.setCpf(message.getString("cpf"));
                     user.setEmail(message.getString("email"));
                     user.setName(message.getString("cpf"));
-                    user.setPassword(message.getString("cpf"));
+                    user.setPassword(message.getString("password"));
                     user.setRealties(message.getString("realties"));
                     
                     user.setPrKey(message.getString("privateKey"));
@@ -72,15 +74,32 @@ public class DataProcess {
                 }
             
                     break;
+                    
                 case "sucessful save":
                     facadeb.getUser().addRealty(message.getInt("rId"));
+                    break;
+                    
+                case "Repassing Realty":
+                    facadeb.setPassword(message.getString("password"));
+                    facadeb.setRealtyToPass(message.getInt("rId"));
+                    facadeb.setSellerhost(message.getString("host"));
+                    facadeb.setSellerport(message.getInt("port"));
+                    facadeb.setPublicKey(message.getString("publicKey"));
+                    facadef.reciveScreen();
+                    break;
+                    
+                case "sucessful repass":
+                    JSONObject reply = new JSONObject();
+                    reply.accumulate("Id", facadeb.getUser().getCpf());
+                    reply.accumulate("request", "userRemoveRealty");
+                    reply.accumulate("rId", message.getInt("rId"));
+                    facadec.sendMessageToCourthouse(reply.toString());
                 default:
                     break;
                         
             }    
         }
     
-        //tratar
     }
     
 

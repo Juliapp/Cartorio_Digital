@@ -5,8 +5,6 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PeersMap {
     private final Map<String, Peer> peersMap;  
@@ -37,7 +35,7 @@ public class PeersMap {
                 return peersMap.get("localhost" + ":" + String.valueOf(port));
             }
         } catch (UnknownHostException ex) {
-            Logger.getLogger(PeersMap.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex);
         }
         return peersMap.get(host + ":" + String.valueOf(port));
     }

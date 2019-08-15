@@ -28,8 +28,8 @@ public class FacadeComunication {
         return connectionsController.getUserHost();
     }
     
-    public void createNewPeerConection(String ip, int host) {
-       connectionsController.addPeer(ip, host);
+    public void createNewPeerConection(String ip, int host, String askConection) {
+       connectionsController.addPeer(ip, host, askConection);
     }
     
     public void sendMessage(String message, String host, int port){

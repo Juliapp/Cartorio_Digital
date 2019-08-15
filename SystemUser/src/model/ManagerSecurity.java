@@ -113,4 +113,8 @@ public class ManagerSecurity {
         return outputStream.toByteArray();
     }
 
+    public Integer sighDocument(RealtyPassManager realtyPassManager, String privateKey) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
+        return sighDocument(realtyPassManager.getPublicKey(), privateKey, realtyPassManager.getRealty());
+    }
+
 }

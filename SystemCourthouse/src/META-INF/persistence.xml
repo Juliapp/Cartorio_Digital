@@ -9,10 +9,10 @@
     <class>Realty</class>
     <properties>
         
-<!--      Server: sql130.main-hostinger.eu
-DB: u970457530_juli
-User: u970457530_juapp 
-Senha: F7DHdKSZrtnw  -->
+    <!--      Server: sql130.main-hostinger.eu
+    DB: u970457530_juli
+    User: u970457530_juapp 
+    Senha: F7DHdKSZrtnw  -->
 
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

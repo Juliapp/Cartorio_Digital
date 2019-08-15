@@ -1,6 +1,5 @@
 package comunication;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import util.Cript;
 

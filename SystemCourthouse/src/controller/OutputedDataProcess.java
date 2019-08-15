@@ -76,7 +76,7 @@ public class OutputedDataProcess {
                             reply.accumulate("cpf", userAux.getCpf());
                             reply.accumulate("email", userAux.getEmail());
                             reply.accumulate("name", userAux.getName());
-                            reply.accumulate("passsword", userAux.getPassword());
+                            reply.accumulate("password", userAux.getPassword());
                             reply.accumulate("privateKey", userAux.getPrKey());
                             reply.accumulate("publicKey", userAux.getPuKey());
                             reply.accumulate("realties", userAux.getR());
@@ -127,6 +127,17 @@ public class OutputedDataProcess {
                     reply.accumulate("message", "Your data was susessful saved");
                     facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
                 }
+                break;
+            case "userRemoveRealty":
+                user = facadeb.getUserById(message.getString("Id"));
+                user.removeRealty(message.getInt("rId"));
+                facadeb.saveUser(user);
+                break;
+            case "userAddRealty":
+                user = facadeb.getUserById(message.getString("Id"));
+                user.addRealty(message.getInt("rId"));
+                facadeb.saveUser(user);
+                break;
             default:
                 break;
         }

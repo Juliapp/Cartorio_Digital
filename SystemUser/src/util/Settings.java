@@ -11,7 +11,10 @@ public class Settings {
         CONECT_SERVER("/view/screens/FXMLServerConect.fxml"),
         LOADING("/view/screens/FXMLLoading.fxml"),
         NEW_REALTY("/view/screens/FXMLNewRealty.fxml"),
-        LOGON("/view/screens/FXMLLogon.fxml");
+        LOGON("/view/screens/FXMLLogon.fxml"),
+        
+        PASSSTAGE("/view/screens/FXMLConectAndPassSignature.fxml"),
+        RECIVESTAGE("/view/screens/FXMLReciveRealty.fxml");
 
         private final String value;
 

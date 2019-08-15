@@ -1,6 +1,5 @@
 package facade;
 
-
 import model.DataCheck;
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -14,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import model.ManagerSecurity;
 import model.ObserverData;
+import model.RealtyPassManager;
 import model.UserData;
 
 public class FacadeBack {
@@ -22,6 +22,7 @@ public class FacadeBack {
     private static FacadeBack facade;
     private final DataCheck datacheck;
     private final ManagerSecurity managerSecurity;
+    private RealtyPassManager realtyPassManager;
     
     public static synchronized FacadeBack getInstance() throws IOException, ClassNotFoundException {
         return (facade == null) ? facade = new FacadeBack(): facade;
@@ -51,6 +52,11 @@ public class FacadeBack {
 
     public void initializeUser(UserData user){
         this.user = user;
+        try {
+            realtyPassManager = new RealtyPassManager(user.getPuKey());
+        } catch (IOException | ClassNotFoundException ex) {
+            System.err.println(ex);
+        }
     }
     
     public UserData getUser(){
@@ -87,4 +93,55 @@ public class FacadeBack {
         return sighDocument(publicKey, user.getPrKey(), aInt);
     }
 
+    public Integer sighRepassDocument() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
+        return managerSecurity.sighDocument(realtyPassManager, user.getPrKey());
+    }    
+
+    public RealtyPassManager getPassManager(){
+        return realtyPassManager;
+    }
+    
+    public String createRandomCode() {
+        return realtyPassManager.createRandomCode();
+    }
+
+    public void setPassword(String passPassword) {
+        realtyPassManager.setPassPassword(passPassword);
+    }
+    
+    public void setRealtyToPass(int realty) {
+        realtyPassManager.setRealty(realty);
+    }
+   
+    public void sendRealty(String host, int port){
+        realtyPassManager.sendRealty(host, port);
+    }    
+
+    public String getSellerhost() {
+        return realtyPassManager.getSellerhost();
+    }
+
+    public void setSellerhost(String sellerhost) {
+        realtyPassManager.setSellerhost(sellerhost);
+    }
+
+    public int getSellerport() {
+        return realtyPassManager.getSellerport();
+    }
+
+    public void setSellerport(int sellerport) {
+        realtyPassManager.setSellerport(sellerport);
+    }    
+    
+    public String getPublicKey() {
+        return realtyPassManager.getPublicKey();
+    }
+
+    public void setPublicKey(String publicKey) {
+        realtyPassManager.setPublicKey(publicKey);
+    }
+    
+    public String getSellerPassword(){
+        return realtyPassManager.getPassPassword();
+    }
 }

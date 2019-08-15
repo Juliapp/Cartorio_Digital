@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="280.0" prefWidth="460.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.FXMLConectAndPassSignatureController">
+   <children>
+      <StackPane prefHeight="278.0" prefWidth="459.0">
+         <children>
+            <Pane fx:id="passPassPane" prefHeight="278.0" prefWidth="459.0">
+               <children>
+                  <Label layoutX="69.0" layoutY="68.0" prefHeight="59.0" prefWidth="321.0" text="Para concluir a transação, peça ao remetente para digitar a senha abaixo " textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="passPassword" layoutX="202.0" layoutY="151.0" text="Label">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="conectPane" prefHeight="278.0" prefWidth="459.0">
+               <children>
+                  <Label layoutX="97.0" layoutY="56.0" prefHeight="35.0" prefWidth="265.0" text="Conecte-se com o remetente">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="tfHost" layoutX="155.0" layoutY="127.0" prefHeight="25.0" prefWidth="192.0" />
+                  <JFXTextField fx:id="tfPort" layoutX="155.0" layoutY="159.0" prefHeight="25.0" prefWidth="112.0" />
+                  <JFXButton layoutX="310.0" layoutY="207.0" onAction="#conectToPeer" text="Conecte-se" />
+                  <JFXRadioButton fx:id="tbLocalH" layoutX="92.0" layoutY="106.0" onAction="#setLocalHostOn" text="Esta funcionando na mesma placa de rede?" />
+                  <Label fx:id="hostLabel" layoutX="101.0" layoutY="139.0" text="Host: ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="99.0" layoutY="171.0" text="Porta: ">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="passwordPane" prefHeight="280.0" prefWidth="450.0">
+               <children>
+                  <Label layoutX="154.0" layoutY="100.0" text="Digite sua senha ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <JFXPasswordField fx:id="passwordTF" layoutX="134.0" layoutY="139.0" prefHeight="25.0" prefWidth="192.0" />
+                  <JFXButton layoutX="326.0" layoutY="206.0" onAction="#confirmUserPassword" text="Ok" />
+               </children>
+            </Pane>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
