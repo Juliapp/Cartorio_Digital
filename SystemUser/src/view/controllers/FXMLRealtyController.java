@@ -1,5 +1,6 @@
 package view.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import facade.FacadeBack;
 import facade.FacadeFront;
 import java.io.IOException;
@@ -19,9 +20,12 @@ public class FXMLRealtyController implements Initializable {
     
     @FXML   private Label something;
     @FXML   private Label address;
+    
+    @FXML   private JFXButton buttonPass;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         try {
             facade = FacadeFront.getInstance();
             facadeb = FacadeBack.getInstance();
@@ -30,6 +34,10 @@ public class FXMLRealtyController implements Initializable {
         }
         realty = facade.getActualRealty();
         address.setText(realty.getAddress());
+        
+        if(!facade.isYour()){
+            buttonPass.setVisible(false);
+        }        
     }    
 
     public void setSomething(Label something) {

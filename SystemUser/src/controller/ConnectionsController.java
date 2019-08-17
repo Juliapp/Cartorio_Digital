@@ -79,4 +79,14 @@ public class ConnectionsController{
     public void sendMessageToCourthouse(String message) {
         threadPeer.sendMessageToCourthouse(message);
     }  
+
+    public void addPeer(String host, int port) {
+        try {
+            Peer p = new Peer(host, port);
+            p.conect();
+            othersPeers.addPeer(p);
+        } catch (IOException ex) {
+            System.err.println(ex);
+        }
+    }
 }

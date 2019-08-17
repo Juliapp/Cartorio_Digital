@@ -35,7 +35,6 @@ public class Realty {
     }
 
 
-
     public String getAddress() {
         return address;
     }

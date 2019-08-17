@@ -2,6 +2,7 @@ package controller;
 
 import JPAPersistence.DAO;
 import facade.FacadeBack;
+import facade.FacadeComunication;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Realty;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import util.Settings.Scenes;
 import static util.Settings.Scenes.PASSSTAGE;
 import static util.Settings.Scenes.REALTY;
@@ -22,13 +25,18 @@ import static util.Settings.Scenes.RECIVESTAGE;
 public class ScreenController {
 
     private final FacadeBack facadeb;
+    private final FacadeComunication facadec;
     private final Stage stage;
     private Realty actual;
     private final DAO dao;
+    
+    private boolean isYours;
+    private String searchUser;
 
     public ScreenController(Stage rootStage) throws IOException, ClassNotFoundException {
         stage = rootStage = new Stage();
         facadeb = FacadeBack.getInstance();
+        facadec = FacadeComunication.getInstance();
         dao = new DAO();
     }
 
@@ -57,7 +65,9 @@ public class ScreenController {
         stage.setFullScreen(true);
     }
 
-    public void loadRealties(VBox vbContainer) {
+    public void loadYourRealties(VBox vbContainer) {
+        isYours = true;
+        
         vbContainer.getChildren().clear();
         ArrayList<Node> elements = new ArrayList<>();
         try{
@@ -76,6 +86,42 @@ public class ScreenController {
             vbContainer.getChildren().setAll(elements);
         }        
     }
+    
+    public void loadOtherRealties(VBox vbContainer, String userid) {
+        isYours = false;
+        searchUser = null;
+        
+        JSONObject request = new JSONObject();
+        request.accumulate("request", "search");
+        request.accumulate("host", facadec.getUserHost());
+        request.accumulate("port", facadec.getUserPeerPort());
+        request.accumulate("id", userid);
+        facadec.sendMessageToCourthouse(request.toString());
+        
+        while(searchUser == null){
+            
+        }
+        
+        JSONArray realties = new JSONArray(searchUser);
+        
+        vbContainer.getChildren().clear();
+        ArrayList<Node> elements = new ArrayList<>();
+        try{
+            List<Object> list = realties.toList();
+            if(list.size() > 0){
+                list.stream().map((id) -> {
+                    actual = dao.findRealty((Integer)id);
+                    return id;
+                }).forEachOrdered((_item) -> {
+                    elements.add(createNewRealtyNode());
+                });
+            }      
+        }catch(org.json.JSONException ex){
+            
+        }finally{
+            vbContainer.getChildren().setAll(elements);
+        }        
+    }    
     
     private Node createNewRealtyNode(){
         Node node = null;
@@ -137,5 +183,24 @@ public class ScreenController {
         passStage.setScene(scene);
         passStage.show();              
     }
+
+    public boolean isIdYours() {
+        return isYours;
+    }
+
+    public void setIdYours(boolean idYours) {
+        this.isYours = idYours;
+    }
+
+    public String getSearchUser() {
+        return searchUser;
+    }
+
+    public void setSearchUser(String searchUser) {
+        this.searchUser = searchUser;
+    }
+    
+    
+    
 }    
 

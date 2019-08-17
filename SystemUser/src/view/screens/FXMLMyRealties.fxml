@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.controllers.FXMLMyRealtiesController">
    <children>
-      <ScrollPane layoutX="24.0" layoutY="25.0" prefHeight="450.0" prefWidth="553.0" style="-fx-background-color: #ffffff;">
+      <ScrollPane layoutX="24.0" layoutY="89.0" prefHeight="386.0" prefWidth="553.0" style="-fx-background-color: #ffffff;">
          <content>
-            <VBox fx:id="vbContainer" prefHeight="448.0" prefWidth="537.0" />
+            <VBox fx:id="vbContainer" prefHeight="315.0" prefWidth="537.0" />
          </content>
       </ScrollPane>
+      <JFXTextField fx:id="txSearch" layoutX="79.0" layoutY="35.0" prefHeight="39.0" prefWidth="327.0" />
+      <JFXButton fx:id="btnSearch" layoutX="449.0" layoutY="38.0" onAction="#searchUser" text="pesquisar" />
    </children>
 </AnchorPane>

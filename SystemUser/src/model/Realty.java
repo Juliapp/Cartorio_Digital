@@ -34,8 +34,6 @@ public class Realty {
         this.hash = hash;
     }
 
-
-
     public String getAddress() {
         return address;
     }

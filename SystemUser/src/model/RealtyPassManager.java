@@ -20,14 +20,17 @@ public class RealtyPassManager {
         facadec = FacadeComunication.getInstance();
     }
     
-    public String createRandomCode() {
+    public String createRandomCode(String host, int port) {
         String id = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         int codeLength = 6;
-        return new SecureRandom()
+        String ran = new SecureRandom()
                 .ints(codeLength, 0, id.length())
                 .mapToObj(id::charAt)
                 .map(Object::toString)
                 .collect(Collectors.joining());
+        this.passPassword = ran;
+        sendRealty(host,  port);
+        return ran;
     }
     
     

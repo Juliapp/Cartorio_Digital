@@ -20,4 +20,8 @@ public class Cript {
     public byte[] BASE64decode(String data){
         return Base64.getDecoder().decode(data);
     }
+    
+    public byte[] BASE64BYTE(byte[] data){
+        return BASE64decode(BASE64encode(data));
+    }
 }

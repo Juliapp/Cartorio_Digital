@@ -51,15 +51,17 @@ public class FXMLConectAndPassSignatureController implements Initializable {
         String host = InetAddress.getLocalHost().getHostAddress();
         if(tbLocalH.isSelected()){
             facadec.createNewPeerConection("localhost", port, askConectionToPeer(host, port));
-            
+            passPassword.setText(facadeb.createRandomCodeNSend(host, port));
         }
         else{
             facadec.createNewPeerConection(tfHost.getText(), Integer.parseInt(tfPort.getText()), askConectionToPeer(host, facadec.getUserPeerPort()));          
+            passPassword.setText(facadeb.createRandomCodeNSend(host, port));
         }
-        passPassword.setText(facadeb.createRandomCode());
         passPaneOn();
+        
     }
 
+        
     @FXML
     private void setLocalHostOn(ActionEvent event) {
         if(tbLocalH.isSelected()){
@@ -103,9 +105,10 @@ public class FXMLConectAndPassSignatureController implements Initializable {
 
     public String askConectionToPeer(String host, int port){
         JSONObject message = new JSONObject();
-        message.accumulate("request", "conect");
+        message.accumulate("reply", "conect");
         message.accumulate("host", host);
         message.accumulate("port", facadec.getUserPeerPort());
         return message.toString();
-    }    
+    }
+    
 }

@@ -101,8 +101,8 @@ public class FacadeBack {
         return realtyPassManager;
     }
     
-    public String createRandomCode() {
-        return realtyPassManager.createRandomCode();
+    public String createRandomCodeNSend(String host, int port) {
+        return realtyPassManager.createRandomCode(host, port);
     }
 
     public void setPassword(String passPassword) {

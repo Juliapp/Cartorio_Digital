@@ -8,6 +8,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
+import javafx.application.Platform;
 import org.json.JSONObject;
 import util.Cript;
 
@@ -30,11 +31,12 @@ public class DataProcess {
     
     public void pullMessage(byte[] inputedBytes){
         JSONObject message = new JSONObject(convertToString(inputedBytes));
+        System.out.println(message.toString());
         if(message.getString("reply") != null){
             switch(message.getString("reply")){
                 case "Erro":
-                    facadef.newAlertError("erro", message.getString("message"));
-                    facadeb.checkFalse();
+//                    facadef.newAlertError("erro", message.getString("message"));
+//                    facadeb.checkFalse();
                     break;
                 case "sucessful login": 
                     UserData user = new UserData();
@@ -85,7 +87,7 @@ public class DataProcess {
                     facadeb.setSellerhost(message.getString("host"));
                     facadeb.setSellerport(message.getInt("port"));
                     facadeb.setPublicKey(message.getString("publicKey"));
-                    facadef.reciveScreen();
+                    Platform.runLater(facadef::reciveScreen);
                     break;
                     
                 case "sucessful repass":
@@ -94,7 +96,24 @@ public class DataProcess {
                     reply.accumulate("request", "userRemoveRealty");
                     reply.accumulate("rId", message.getInt("rId"));
                     facadec.sendMessageToCourthouse(reply.toString());
+                    break;
+                    
+                case "search":
+                    facadef.setSearchResult(message.getString("result"));
+                    break;
+                    
+                case "conect":
+            
+                try {
+                    facadec = FacadeComunication.getInstance();
+                    facadec.createNewPeerConection(message.getString("host"), message.getInt("port"));
+                } catch (IOException | ClassNotFoundException ex) {
+                    System.err.println(ex);
+                }
+                    break;
+                
                 default:
+                    System.out.println("não entrou em nenhum");
                     break;
                         
             }    

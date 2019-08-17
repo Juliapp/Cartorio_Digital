@@ -44,6 +44,7 @@ public class OutputedDataProcess {
                 facadec.createNewPeerConection(message.getString("host"), message.getInt("port"));
                 break;
             case "saveUser":
+                userAux = new UserData();
                 userAux.setCpf(message.getString("cpf"));
                 userAux.setEmail(message.getString("email"));
                 userAux.setName(message.getString("name"));
@@ -58,6 +59,7 @@ public class OutputedDataProcess {
                         userAux.setPuKey(facadeb.encodePublicKey(pair.getPublic()));
                     } catch (NoSuchAlgorithmException ex1) {
                         System.err.println(ex1);
+                        
                     }
                 }
 
@@ -138,20 +140,15 @@ public class OutputedDataProcess {
                 user.addRealty(message.getInt("rId"));
                 facadeb.saveUser(user);
                 break;
+            case "search":
+                user = facadeb.getUserById(message.getString("id"));
+                reply = new JSONObject();
+                reply.accumulate("reply", "search");
+                reply.accumulate("result", user.getR());
+                facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
+                break;
             default:
                 break;
-        }
-    }
-
-    public void repassRealty(JSONObject message) {
-        try {
-            FacadeBack facadeb = FacadeBack.getInstance();
-            JSONObject reply = new JSONObject();
-            reply.accumulate("reply", "confirmFirstSignarute");
-            reply.accumulate("publicKey", facadeb.getCourt().getPuKey());
-            facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
-        } catch (IOException | ClassNotFoundException ex) {
-            System.err.println(ex);
         }
     }
 }

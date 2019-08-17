@@ -38,7 +38,7 @@ public class FXMLReciveRealtyController implements Initializable {
                 int i = facadeb.sighRepassDocument();
                 if(i > 0){
                     JSONObject reply = new JSONObject();
-                    reply.accumulate("reply", "sucessful repass");
+                    reply.accumulate("request", "sucessful repass");
                     reply.accumulate("rId", facadeb.getPassManager().getRealty());
                     facadec.sendMessage(reply.toString(), facadeb.getPassManager().getSellerhost(), facadeb.getPassManager().getSellerport());
                     

@@ -32,6 +32,10 @@ public class FacadeComunication {
        connectionsController.addPeer(ip, host, askConection);
     }
     
+    public void createNewPeerConection(String host, int port) {
+       connectionsController.addPeer(host, port);
+    }
+    
     public void sendMessage(String message, String host, int port){
         connectionsController.sendMessage(message, host, port);
     }

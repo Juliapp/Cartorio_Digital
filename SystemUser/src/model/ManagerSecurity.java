@@ -65,10 +65,11 @@ public class ManagerSecurity {
             PrivateKey pK = decodePrivateKey(privateKey);
             return sighDocument(pK, realty);
         }
+        System.out.println("c");
         return 0;
     }
     
-    private Integer sighDocument(PrivateKey privateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
+    public Integer sighDocument(PrivateKey privateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
         //Initializing a new signature
         Signature signature = Signature.getInstance(ALGORITHM);
         signature.initSign(privateKey);
@@ -87,15 +88,43 @@ public class ManagerSecurity {
         return realty.getId();
     }
     
+    //TESTE DE ASSINATURA
+    
+    public Realty sighDocumentTESTE(PrivateKey privateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
+        System.out.println("entrou no sighDocumentTESTE");
+        //Initializing a new signature
+        Signature signature = Signature.getInstance(ALGORITHM);
+        signature.initSign(privateKey);
+        //Gerate new Random Hash value
+        byte[] newHash = cript.BASE64BYTE(intToByteArray(ThreadLocalRandom.current().nextInt()));       
+        //Concat the house charter with the new hash
+        byte[] docNHashToSigh = realty.getHouseCharter();/*cript.BASE64BYTE(concatByteArrays(realty.getHouseCharter(), newHash));*/
+        signature.update(docNHashToSigh);
+        //gerate the new signature
+        byte[] docSigh = signature.sign();
+        //update the new sign and the new hash
+        realty.mergeNewSignature(docSigh, newHash);
+        realty.setHouseCharter(docSigh);
+        //update them in the database
+        realty = dao.mergeRealty(realty);
+        System.out.println("o id dele é: " + realty.getId());
+        //return the number of the realtyId to be added to the new owner
+        return realty;
+    }
+
+
+    //FIM DO TESTE
     
     
-    private boolean checkDocument(PublicKey sellerPublicKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
+    
+    public boolean checkDocument(PublicKey sellerPublicKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
         Signature sellerSig = Signature.getInstance(ALGORITHM);
         sellerSig.initVerify(sellerPublicKey);
         //the realty's hash is checked in the database, and garanties that is not an old hashcode
-        byte[] chech = concatByteArrays(realty.getHouseCharter(), dao.findRealtyHash(realty.getId()));
-        sellerSig.update(chech);
-        return sellerSig.verify(realty.getSignature());
+//        byte[] chech = concatByteArrays(realty.getHouseCharter(), dao.findRealtyHash(realty.getId()));
+        sellerSig.update(realty.getSignature());
+        
+        return sellerSig.verify(realty.getHouseCharter());
     }
     
     private byte[] intToByteArray (int i) throws IOException {      

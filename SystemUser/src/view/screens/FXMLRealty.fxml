@@ -13,7 +13,7 @@
    <children>
       <Pane layoutX="13.0" layoutY="15.0" prefHeight="61.0" prefWidth="511.0" style="-fx-border-color: #cfcfcf; -fx-border-radius: 7;">
          <children>
-            <JFXButton layoutX="439.0" layoutY="5.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#passSignature" prefHeight="50.0" prefWidth="50.0" text=" ">
+            <JFXButton fx:id="buttonPass" layoutX="439.0" layoutY="5.0" maxHeight="50.0" maxWidth="50.0" minHeight="50.0" minWidth="50.0" onAction="#passSignature" prefHeight="50.0" prefWidth="50.0" text=" ">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="179.0" pickOnBounds="true" preserveRatio="true">
                      <image>

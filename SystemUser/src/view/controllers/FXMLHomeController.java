@@ -11,7 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import static util.Settings.Scenes.MY_REALTIES;
 import static util.Settings.Scenes.NEW_REALTY;
-import static util.Settings.Scenes.SEARCH;
 
 public class FXMLHomeController implements Initializable {
 
@@ -34,11 +33,8 @@ public class FXMLHomeController implements Initializable {
 
     @FXML
     private void myRealties(ActionEvent event) {
+        facade.setIsYours(true);
         facade.loadAnchorPane(anchorMenu, MY_REALTIES);
-//        btnMyRealties.setOnMouseClicked(
-//                
-//        );
-        
     }
 
     @FXML
@@ -49,7 +45,8 @@ public class FXMLHomeController implements Initializable {
 
     @FXML
     private void search(ActionEvent event) {
-        facade.loadAnchorPane(anchorMenu, SEARCH);
+        facade.setIsYours(false);
+        facade.loadAnchorPane(anchorMenu, MY_REALTIES);
     }
     
 }

@@ -2,7 +2,6 @@ package facade;
 
 import controller.ScreenController;
 import java.io.IOException;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -55,10 +54,14 @@ public class FacadeFront {
         screenController.setAPChildren(anchor, screen);
     }
 
-    public void loadRealties(VBox vbContainer) {
-        screenController.loadRealties(vbContainer);
+    public void loadYourRealties(VBox vbContainer) {
+        screenController.loadYourRealties(vbContainer);
     }
-
+    
+    public void loadUserRealties(VBox vbContainer, String userid){
+            screenController.loadOtherRealties(vbContainer, userid);
+    }
+    
     public Realty getActualRealty() {
         return screenController.getActualRealty();
     }
@@ -81,5 +84,17 @@ public class FacadeFront {
     
     public void reciveScreen(){
         screenController.reciveScreen();
-    }    
+    }
+    
+    public boolean isYour(){
+        return screenController.isIdYours();
+    }
+
+    public void setSearchResult(String searchUser) {
+        screenController.setSearchUser(searchUser);
+    }
+
+    public void setIsYours(boolean b) {
+        screenController.setIdYours(b);
+    }
 }
