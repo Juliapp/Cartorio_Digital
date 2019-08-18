@@ -48,7 +48,7 @@ public class ThreadUserPeer extends Thread{
         
         byte buffer[] = emptyByteArrayReference;
         try {
-            if(dataInputStream.available() > 0){
+            if(dataInputStream.available() > 0 && input != null){
                 buffer = new byte[dataInputStream.available()];
                 dataInputStream.readFully(buffer);
             }    

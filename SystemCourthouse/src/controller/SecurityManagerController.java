@@ -10,7 +10,6 @@ import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import model.ManagerSecurity;
 import model.Realty;
-import model.UserData;
 import org.json.JSONObject;
 import util.Cript;
 
@@ -27,7 +26,7 @@ public class SecurityManagerController {
     public Integer signDocument(String courtPK, JSONObject realtyJson) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
         Realty realty = new Realty();
         realty.setAddress(realtyJson.getString("address"));
-        realty.setHouseCharter(cript.BASE64decode(cript.UTF8BASE64converter(realtyJson.getString("charter"))));
+        realty.setHouseCharter(realtyJson.getString("charter"));
         return manager.sighDocument(courtPK, realty);
     }
     

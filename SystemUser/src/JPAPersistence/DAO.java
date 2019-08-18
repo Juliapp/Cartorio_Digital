@@ -30,7 +30,7 @@ public class DAO {
         return realty;
     }
     
-    public byte[] findRealtyHash(Integer id){
+    public String findRealtyHash(Integer id){
         EntityManager em = new ConectionFactory().getConnection();
         try {
             return em.find(Realty.class, id).getHash();

@@ -5,23 +5,22 @@ import java.util.Base64;
 
 public class Cript {
 
-    public String UTF8encode(byte[] data){
+    public String UTF8encode(byte[] data) {
         return new String(data, StandardCharsets.UTF_8);
     }
-    
-    public byte[] UTF8decode(String data){
+
+    public byte[] UTF8decode(String data) {
         return data.getBytes(StandardCharsets.UTF_8);
     }
-    
-    public String BASE64encode(byte[] data){
-        return Base64.getEncoder().encodeToString(data);
+
+    public String BASE64encode(byte[] data) {
+        String encoded = Base64.getEncoder().encodeToString(data).replaceAll("-", "");
+        return encoded;
     }
-    
-    public byte[] BASE64decode(String data){
+
+    public byte[] BASE64decode(String data) {
+        data = data.replaceAll("-", "");
         return Base64.getDecoder().decode(data);
     }
-    
-    public byte[] BASE64BYTE(byte[] data){
-        return BASE64decode(BASE64encode(data));
-    }
+
 }

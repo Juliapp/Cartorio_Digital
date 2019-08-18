@@ -32,7 +32,7 @@ public class FacadeBack {
     }
     
     public void initialize() throws NoSuchAlgorithmException{
-//        KeyPair pair = DSAkeyPairGenerator();
+        KeyPair pair = DSAkeyPairGenerator();
 //        System.out.println(encodePrivateKey(pair.getPrivate()));
         courthouse = dao.persistCourtHouse(/*encodePrivateKey(pair.getPrivate()),
         encodePublicKey(pair.getPublic())*/); 

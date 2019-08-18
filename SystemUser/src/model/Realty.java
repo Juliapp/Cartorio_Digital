@@ -12,10 +12,10 @@ public class Realty {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)    
     private Integer id;
-    private byte[] hash;
+    private String hash;
     private String address;
     @Column(length = 3000)
-    private byte[] houseCharter;
+    private String houseCharter;
     private byte[] signature;
 
     public Integer getId() {
@@ -26,11 +26,11 @@ public class Realty {
         this.id = id;
     }
 
-    public byte[] getHash() {
+    public String getHash() {
         return hash;
     }
 
-    public void setHash(byte[] hash) {
+    public void setHash(String hash) {
         this.hash = hash;
     }
 
@@ -42,11 +42,11 @@ public class Realty {
         this.address = address;
     }
 
-    public byte[] getHouseCharter() {
+    public String getHouseCharter() {
         return houseCharter;
     }
 
-    public void setHouseCharter(byte[] houseCharter) {
+    public void setHouseCharter(String houseCharter) {
         this.houseCharter = houseCharter;
     }
 
@@ -54,7 +54,7 @@ public class Realty {
         return signature;
     }
     
-    public void mergeNewSignature(byte[] signature, byte[] hash){
+    public void mergeNewSignature(byte[] signature, String hash){
         this.signature = signature;
         this.hash = hash;
     }

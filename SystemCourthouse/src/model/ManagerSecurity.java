@@ -1,8 +1,6 @@
 package model;
 
 import JPAPersistence.DAO;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -61,41 +59,32 @@ public class ManagerSecurity {
         return cript.BASE64encode(privateKey.getEncoded());
     }    
     
-    public Integer sighDocument(String privateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
-        PrivateKey courtPrKey = decodePrivateKey(privateKey);
+    public Integer sighDocument(String strBuyerPrivateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
+        PrivateKey privateKey = decodePrivateKey(strBuyerPrivateKey);
         //Initializing a new signature
         Signature signature = Signature.getInstance(ALGORITHM);
-        signature.initSign(courtPrKey);
-        //Gerate new Random Hash value
-        byte[] newHash = intToByteArray(ThreadLocalRandom.current().nextInt());       
+        signature.initSign(privateKey);
+        //Gerate new Random Hash value and convert to String
+        String newHash = Integer.toHexString(ThreadLocalRandom.current().nextInt());
         //Concat the house charter with the new hash
-        System.out.println(newHash);
-        
-        byte[] docNHashToSigh = concatByteArrays(realty.getHouseCharter(), newHash);
-        
-        signature.update(docNHashToSigh);
+        String docNHashToSigh = signable(realty, newHash);
+        //prepering to sigh
+        signature.update(cript.BASE64decode(docNHashToSigh));
         //gerate the new signature
         byte[] docSigh = signature.sign();
         //update the new sign and the new hash
         realty.mergeNewSignature(docSigh, newHash);
-        //update them in the database
+        //update realty in the database
         realty = dao.saveRealty(realty);
         //return the number of the realtyId to be added to the new owner
         return realty != null ? realty.getId() : 0;
     }
     
-    private byte[] intToByteArray (int i) throws IOException {      
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        DataOutputStream dos = new DataOutputStream(bos);
-        dos.writeInt(i);
-        dos.flush();
-        return bos.toByteArray();
+    public String signable(Realty realty, String hash){
+        if(realty.getHouseCharter().length() >= 50 ){
+            return realty.getHouseCharter().substring(0, 49).concat(hash);
+        }else{
+            return realty.getHouseCharter().concat(hash);
+        }
     }    
-    
-    private byte[] concatByteArrays(byte[] charter, byte[] hash) throws IOException{
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream( );
-        outputStream.write(charter);
-        outputStream.write(hash);
-        return outputStream.toByteArray();
-    }
 }
