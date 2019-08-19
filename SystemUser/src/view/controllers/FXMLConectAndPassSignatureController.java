@@ -50,11 +50,13 @@ public class FXMLConectAndPassSignatureController implements Initializable {
         int port = Integer.parseInt(tfPort.getText());
         String host = InetAddress.getLocalHost().getHostAddress();
         if(tbLocalH.isSelected()){
-            facadec.createNewPeerConection("localhost", port, askConectionToPeer(host, port));
+            facadec.createNewPeerConection(host, port, askConectionToPeer(host, port));
             passPassword.setText(facadeb.createRandomCodeNSend(host, port));
         }
         else{
-            facadec.createNewPeerConection(tfHost.getText(), Integer.parseInt(tfPort.getText()), askConectionToPeer(host, facadec.getUserPeerPort()));          
+            port = Integer.parseInt(tfPort.getText());
+            host = tfHost.getText();
+            facadec.createNewPeerConection(host, port, askConectionToPeer(host, port));          
             passPassword.setText(facadeb.createRandomCodeNSend(host, port));
         }
         passPaneOn();

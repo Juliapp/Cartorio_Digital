@@ -71,10 +71,10 @@ public class ScreenController {
         vbContainer.getChildren().clear();
         ArrayList<Node> elements = new ArrayList<>();
         try{
-            List<Integer> list = facadeb.getUser().getRealties();
+            List<Object> list = facadeb.getUser().getRealties();
             if(list.size() > 0){
                 list.stream().map((id) -> {
-                    actual = dao.findRealty(id);
+                    actual = dao.findRealty((Integer)id);
                     return id;
                 }).forEachOrdered((_item) -> {
                     elements.add(createNewRealtyNode());

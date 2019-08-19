@@ -64,17 +64,17 @@ public class UserData {
     }
     
     public void addRealty(Integer realtyId){
-        JSONArray j = new JSONArray(realties);
-        System.out.println(j);
-        j.put(realtyId);
-        realties = j.toString();
+        JSONArray array = new JSONArray(realties);
+        array.put(realtyId);
+        realties = array.toString();
     }
     
     public void removeRealty(Integer realtyId){
         JSONArray array = new JSONArray(realties);
         for (int i = 0; i < array.length(); i++) {
-            if(((Integer)array.get(i)).equals(realtyId)){
+            if(realtyId.equals(array.getInt(i))){
                 array.remove(i);
+                realties = array.toString();
                 return;
             }            
         }

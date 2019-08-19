@@ -38,6 +38,7 @@ public class OutputedDataProcess {
 
     public void pullMessage(byte[] inputedBytes) {
         JSONObject message = new JSONObject(cript.UTF8encode(inputedBytes));
+        System.out.println(message);
         JSONObject reply = null;
         switch (message.getString("request")) {
             case "conect":
@@ -59,7 +60,7 @@ public class OutputedDataProcess {
                         userAux.setPuKey(facadeb.encodePublicKey(pair.getPublic()));
                     } catch (NoSuchAlgorithmException ex1) {
                         System.err.println(ex1);
-                        
+
                     }
                 }
 
@@ -72,20 +73,15 @@ public class OutputedDataProcess {
                 userAux = dao.getUserByEmail(message.getString("email"));
                 if (userAux != null) {
                     if (userAux.getPassword().equals(message.getString("password"))) {
-                        try {
-                            FacadeBack facadeb = FacadeBack.getInstance();
-                            reply.accumulate("reply", "sucessful login");
-                            reply.accumulate("cpf", userAux.getCpf());
-                            reply.accumulate("email", userAux.getEmail());
-                            reply.accumulate("name", userAux.getName());
-                            reply.accumulate("password", userAux.getPassword());
-                            reply.accumulate("privateKey", userAux.getPrKey());
-                            reply.accumulate("publicKey", userAux.getPuKey());
-                            reply.accumulate("realties", userAux.getR());
-                            facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
-                        } catch (IOException | ClassNotFoundException ex) {
-                            System.err.println(ex);
-                        }
+                        reply.accumulate("reply", "sucessful login");
+                        reply.accumulate("cpf", userAux.getCpf());
+                        reply.accumulate("email", userAux.getEmail());
+                        reply.accumulate("name", userAux.getName());
+                        reply.accumulate("password", userAux.getPassword());
+                        reply.accumulate("privateKey", userAux.getPrKey());
+                        reply.accumulate("publicKey", userAux.getPuKey());
+                        reply.accumulate("realties", userAux.getR());
+                        facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
                     } else {
                         reply.accumulate("reply", "Erro");
                         reply.accumulate("message", "password incorrect");
@@ -100,29 +96,29 @@ public class OutputedDataProcess {
 
                 facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
                 break;
-            case "signNewRealty": 
+            case "signNewRealty":
                 reply = new JSONObject();
                 try {
                     Integer i = facadeb.signNewRealty(message.getJSONObject("realtyInfos"));
-                    if(i.compareTo(0) > 0){
+                    if (i.compareTo(0) > 0) {
                         reply.accumulate("reply", "sucessful sign");
                         reply.accumulate("permitidId", i.intValue());
                         reply.accumulate("publicKey", facadeb.getCourt().getPuKey());
                         facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
-                    }else{
+                    } else {
                         reply.accumulate("reply", "Erro");
-                        reply.accumulate("message", "something gone wrong on signature");                        
+                        reply.accumulate("message", "something gone wrong on signature");
                     }
 
                 } catch (InvalidKeySpecException | NoSuchAlgorithmException | InvalidKeyException | SignatureException | IOException ex) {
                     System.err.println(ex);
                 }
-            
+
                 break;
             case "addRealty":
                 UserData user = facadeb.getUserById(message.getString("Id"));
                 user.addRealty(message.getInt("rId"));
-                if(facadeb.saveUser(user) != null){
+                if (facadeb.saveUser(user) != null) {
                     reply = new JSONObject();
                     reply.accumulate("reply", "sucessful save");
                     reply.accumulate("rId", message.getInt("rId"));
@@ -130,16 +126,20 @@ public class OutputedDataProcess {
                     facadec.sendMessage(reply.toString(), message.getString("host"), message.getInt("port"));
                 }
                 break;
+
             case "userRemoveRealty":
                 user = facadeb.getUserById(message.getString("Id"));
                 user.removeRealty(message.getInt("rId"));
+
                 facadeb.saveUser(user);
                 break;
+
             case "userAddRealty":
                 user = facadeb.getUserById(message.getString("Id"));
                 user.addRealty(message.getInt("rId"));
                 facadeb.saveUser(user);
                 break;
+
             case "search":
                 user = facadeb.getUserById(message.getString("id"));
                 reply = new JSONObject();

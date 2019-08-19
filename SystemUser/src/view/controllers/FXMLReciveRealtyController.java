@@ -1,5 +1,6 @@
 package view.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import facade.FacadeBack;
 import facade.FacadeComunication;
@@ -20,6 +21,8 @@ public class FXMLReciveRealtyController implements Initializable {
     @FXML   private JFXTextField tfPassword;
     private FacadeBack facadeb;
     private FacadeComunication facadec;
+    
+    @FXML   private JFXButton btnConfirm;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -33,12 +36,14 @@ public class FXMLReciveRealtyController implements Initializable {
 
     @FXML
     private void confirmPassword(ActionEvent event) {
+        System.out.println(facadeb.getSellerPassword());
         if(tfPassword.getText().equals(facadeb.getSellerPassword())){
+            System.out.println("senha correta");
             try {
                 int i = facadeb.sighRepassDocument();
                 if(i > 0){
                     JSONObject reply = new JSONObject();
-                    reply.accumulate("request", "sucessful repass");
+                    reply.accumulate("reply", "sucessful repass");
                     reply.accumulate("rId", facadeb.getPassManager().getRealty());
                     facadec.sendMessage(reply.toString(), facadeb.getPassManager().getSellerhost(), facadeb.getPassManager().getSellerport());
                     
@@ -47,7 +52,11 @@ public class FXMLReciveRealtyController implements Initializable {
                     reply.accumulate("request", "userAddRealty");
                     reply.accumulate("rId", i);
                     facadec.sendMessageToCourthouse(reply.toString());
+                    
+                    facadeb.getUser().addRealty(i);
+                    btnConfirm.setVisible(false);
                 }
+                
             } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException | IOException | InvalidKeySpecException ex) {
                 System.err.println(ex);
             }

@@ -3,10 +3,14 @@
   <!-- Unidade de persistencia -->
   <persistence-unit name="dbcourthouse">
     <!-- Implementação do JPA -->
-    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
     <!-- Lista de entidades -->
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>Realty</class>
     <properties>
+      <!--      Server: sql130.main-hostinger.eu
+    DB: u970457530_juli
+    User: u970457530_juapp 
+    Senha: F7DHdKSZrtnw  -->
       <!-- Propriedades JDBC -->
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/courthouse"/>

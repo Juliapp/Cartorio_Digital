@@ -9,6 +9,5 @@ public class ConectionFactory {
     
     public EntityManager getConnection(){
         return emf.createEntityManager();
-    }
-    
+    } 
 }

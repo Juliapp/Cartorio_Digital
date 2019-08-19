@@ -187,6 +187,7 @@ public class DAO {
                     return user;
                 }
             }catch(NullPointerException e){
+                //é bom tratar lançando um aviso de que o user não existe ou não foi encontrado.
                 System.err.println("invalid login");
             }
             

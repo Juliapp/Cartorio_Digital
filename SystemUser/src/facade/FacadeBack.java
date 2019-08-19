@@ -63,7 +63,7 @@ public class FacadeBack {
         return user;
     }
 
-    public List<Integer> getUserRealties() {
+    public List<Object> getUserRealties() {
         return user.getRealties();
     }
     
@@ -95,7 +95,7 @@ public class FacadeBack {
 
     public Integer sighRepassDocument() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
         return managerSecurity.sighDocument(realtyPassManager, user.getPrKey());
-    }    
+    } 
 
     public RealtyPassManager getPassManager(){
         return realtyPassManager;

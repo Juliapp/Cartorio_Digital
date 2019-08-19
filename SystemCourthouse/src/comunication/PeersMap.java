@@ -30,13 +30,6 @@ public class PeersMap {
     }
 
     public Peer getPeer(String host, int port) {
-        try {
-            if(host.equals(InetAddress.getLocalHost().getHostAddress())){
-                return peersMap.get("localhost" + ":" + String.valueOf(port));
-            }
-        } catch (UnknownHostException ex) {
-            System.err.println(ex);
-        }
         return peersMap.get(host + ":" + String.valueOf(port));
     }
     

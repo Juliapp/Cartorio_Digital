@@ -56,18 +56,21 @@ public class ManagerSecurity {
         return cript.BASE64encode(privateKey.getEncoded());
     }       
     
-    public Integer sighDocument(String sellerPublicKey, String privateKey, int rId) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
+    public Integer sighDocument(String sellerPublicKey, String buyerPrivateKey, int rId) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
         Realty realty = dao.findRealty(rId);
         PublicKey sellerPK = decodePublicKey(sellerPublicKey);
         if(checkDocument(sellerPK, realty)){
-            return sighDocument(sellerPublicKey, realty);
+            System.out.println("assinatura válida");
+            return sighDocument(buyerPrivateKey, realty);
+        }else{
+            System.out.println("Assinatura inválida");
         }
         return 0;
     }
     
     
-    public Integer sighDocument(String strBuyerPrivateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
-        PrivateKey privateKey = decodePrivateKey(strBuyerPrivateKey);
+    public Integer sighDocument(String buyerPrivateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
+        PrivateKey privateKey = decodePrivateKey(buyerPrivateKey);
         //Initializing a new signature
         Signature signature = Signature.getInstance(ALGORITHM);
         signature.initSign(privateKey);
@@ -100,8 +103,8 @@ public class ManagerSecurity {
     }
     
     public String signable(Realty realty, String hash){
-        if(realty.getHouseCharter().length() >= 50 ){
-            return realty.getHouseCharter().substring(0, 49).concat(hash);
+        if(realty.getHouseCharter().length() >= 60 ){
+            return realty.getHouseCharter().substring(0, 59).concat(hash);
         }else{
             return realty.getHouseCharter().concat(hash);
         }

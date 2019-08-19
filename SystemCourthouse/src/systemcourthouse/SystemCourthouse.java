@@ -10,9 +10,10 @@ public class SystemCourthouse {
 
     public static void main(String[] args) {
         try {
+            //tenta ai só pra ver se cola
             FacadeComunication facadec = FacadeComunication.getInstance();
             facadec.initializeCourtHouse(conect());
-            
+       
             FacadeBack facadeb = FacadeBack.getInstance();
             facadeb.initialize();
         } catch (IOException | ClassNotFoundException | NoSuchAlgorithmException ex) {

@@ -81,8 +81,9 @@ public class ManagerSecurity {
     }
     
     public String signable(Realty realty, String hash){
-        if(realty.getHouseCharter().length() >= 50 ){
-            return realty.getHouseCharter().substring(0, 49).concat(hash);
+        if(realty.getHouseCharter().length() >= 60 ){
+            System.out.println(realty.getHouseCharter().substring(0, 59).concat(hash).length());
+            return realty.getHouseCharter().substring(0, 59).concat(hash);
         }else{
             return realty.getHouseCharter().concat(hash);
         }

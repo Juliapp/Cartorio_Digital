@@ -5,7 +5,9 @@ import com.jfoenix.controls.JFXTextField;
 import facade.FacadeComunication;
 import facade.FacadeFront;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,13 +50,14 @@ public class FXMLServerConectController implements Initializable {
     }
 
     @FXML
-    private void conectToCouthouHouse(ActionEvent event) {
+    private void conectToCouthouHouse(ActionEvent event) throws UnknownHostException {
         int serverPort = Integer.parseInt(txfPort.getText());
         int yourPort = Integer.parseInt(userPort.getText());
         
         if(tbLocalH.isSelected()){
             facadec.initializeUserPeer(yourPort);
-            facadec.conectServer("localhost", serverPort, askConectionToPeer("localhost", serverPort));
+            String host = InetAddress.getLocalHost().getHostAddress();
+            facadec.conectServer(host, serverPort, askConectionToPeer(host, serverPort));
         }
         else{
             facadec.conectServer(txfHost.getText(), serverPort, askConectionToPeer(facadec.getUserHost(), serverPort));          

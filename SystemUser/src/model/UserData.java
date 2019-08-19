@@ -11,7 +11,7 @@ public class UserData {
     private String password;
     private String prKey;
     private String puKey;
-    private List<Integer> realties;
+    private List<Object> realties;
     
     public UserData(String cpf, String name, String email, String password) {
         this.cpf = cpf;
@@ -71,10 +71,17 @@ public class UserData {
     }
     
     public void removeRealty(Integer realtyId){
-        this.realties.remove(realtyId);
+        JSONArray array = new JSONArray(realties);
+        for (int i = 0; i < array.length(); i++) {
+            if(realtyId.equals(array.getInt(i))){
+                array.remove(i);
+                realties = array.toList();
+                return;
+            }            
+        }
     }
 
-    public List<Integer> getRealties() {
+    public List<Object> getRealties() {
         return realties;
     }
 

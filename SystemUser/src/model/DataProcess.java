@@ -96,6 +96,7 @@ public class DataProcess {
                     reply.accumulate("request", "userRemoveRealty");
                     reply.accumulate("rId", message.getInt("rId"));
                     facadec.sendMessageToCourthouse(reply.toString());
+                    facadeb.getUser().removeRealty(message.getInt("rId"));
                     break;
                     
                 case "search":
