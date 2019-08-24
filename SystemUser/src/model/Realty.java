@@ -18,6 +18,19 @@ public class Realty {
     private String houseCharter;
     private byte[] signature;
 
+    public Realty(Integer id, String hash, String address, String houseCharter, byte[] signature) {
+        this.id = id;
+        this.hash = hash;
+        this.address = address;
+        this.houseCharter = houseCharter;
+        this.signature = signature;
+    }
+
+    public Realty() {
+    }
+    
+    
+
     public Integer getId() {
         return id;
     }

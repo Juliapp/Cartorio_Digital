@@ -8,10 +8,15 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 import javafx.application.Platform;
 import org.json.JSONObject;
 import util.Cript;
 
+/**
+ *Controle de recebimento de mensagens
+ * @author Juliana
+ */
 public class DataProcess {
     private FacadeBack facadeb;
     private FacadeComunication facadec;
@@ -27,9 +32,15 @@ public class DataProcess {
             System.err.println(ex);
         }
     }
+  
+    /**
+     *Insere a mensagem, transforma em um JSON e a processa
+     * @param inputedBytes
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */    
     
-    
-    public void pullMessage(byte[] inputedBytes){
+    public void pullMessage(byte[] inputedBytes) throws ClassNotFoundException, SQLException{
         JSONObject message = new JSONObject(convertToString(inputedBytes));
         System.out.println(message.toString());
         if(message.getString("reply") != null){

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ *Thread que aceita novas conexões e as devolve para a ThreadUserPeer
+ * @author Juliana
+ */
 public class ThreadAcceptNewConnections extends Thread{
    private final ServerSocket serverSocket;
     private final ThreadUserPeer threadUserPeer;
@@ -13,6 +17,9 @@ public class ThreadAcceptNewConnections extends Thread{
         this.threadUserPeer = threadUserPeer;
     }
 
+    /**
+     *Aguarda por novas conexões e as introduz na ThreadUserPeer
+     */
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {

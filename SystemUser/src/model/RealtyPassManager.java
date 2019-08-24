@@ -6,6 +6,11 @@ import java.security.SecureRandom;
 import java.util.stream.Collectors;
 import org.json.JSONObject;
 
+/**
+ *Classe auxiliar para a passagem de uma escriturua. Nela vao se armazenar as referências 
+ * da escritura a ser recebida/passada
+ * @author Juliana
+ */
 public class RealtyPassManager {
     private int realty;
     private String passPassword;
@@ -20,6 +25,12 @@ public class RealtyPassManager {
         facadec = FacadeComunication.getInstance();
     }
     
+    /**
+     *Gerador automático de senhas de 6 dígitos aleatórios
+     * @param host
+     * @param port
+     * @return
+     */
     public String createRandomCode(String host, int port) {
         String id = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         int codeLength = 6;
@@ -75,8 +86,11 @@ public class RealtyPassManager {
         this.publicKey = publicKey;
     }
     
-    
-   
+    /**
+     *Manda a mensagem para passar a escritura
+     * @param host
+     * @param port
+     */
     public void sendRealty(String host, int port){
         JSONObject reply = new JSONObject();
         reply.accumulate("reply", "Repassing Realty");

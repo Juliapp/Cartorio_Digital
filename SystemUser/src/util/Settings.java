@@ -2,6 +2,9 @@ package util;
 
 public class Settings {
 
+    /**
+     * enumerador auxiliar para carregar os arquivos fxml
+     */
     public enum Scenes {
         MY_REALTIES("/view/screens/FXMLMyRealties.fxml"),
         SEARCH("/view/screens/FXMLSearch.fxml"),

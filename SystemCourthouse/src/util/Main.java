@@ -1,6 +1,5 @@
 package util;
 
-import JPAPersistence.DAO;
 import facade.FacadeBack;
 import java.net.InetAddress;
 import java.nio.charset.Charset;
@@ -16,8 +15,17 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+/**
+ *
+ * @author nana-
+ */
 public class Main {
 
+    /**
+     *
+     * @param argv
+     * @throws Exception
+     */
     public static void main(String[] argv) throws Exception {
 //        String algorithm = "DSA"; // or RSA, DH, etc.
 //        DAO dao = new DAO();
@@ -48,6 +56,12 @@ public class Main {
 //        same = publicKey.equals(publicKey2);
             
     }
+
+    /**
+     *
+     * @param codeLength
+     * @return
+     */
     public static String createRandomCode(int codeLength) {
         String id = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
         return new SecureRandom()
@@ -56,4 +70,5 @@ public class Main {
                 .map(Object::toString)
                 .collect(Collectors.joining());
     }
+    
 }

@@ -6,7 +6,12 @@ import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Platform;
 
-    public class ObserverData implements Observer {
+/**
+ *Instrumento que vê quando a informação desse usuário chegou do cartório 
+ * e muda para sua tela home
+ * @author Juliana
+ */
+public class ObserverData implements Observer {
         private final FacadeFront facadef;
 
     public ObserverData() throws IOException, ClassNotFoundException {

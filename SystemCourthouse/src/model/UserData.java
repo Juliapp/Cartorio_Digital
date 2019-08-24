@@ -1,74 +1,121 @@
 package model;
 
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import org.json.JSONArray;
 
-@Entity
+/**
+ *Informações do usuário
+ * @author Juliana
+ */
 public class UserData {
-    @Id
     private String cpf;
     private String name;
     private String email;
     private String password;
-    @Column(length = 1000)
     private String prKey;
-    @Column(length = 1000)
     private String puKey;
     private String realties;
     
+    /**
+     *
+     * @param cpf
+     * @param name
+     * @param email
+     * @param password
+     */
     public UserData(String cpf, String name, String email, String password) {
         this.cpf = cpf;
         this.name = name;
         this.email = email;
         this.password = password;
         realties = new JSONArray().toString();
-    }
+    }    
     
+    /**
+     *
+     */
     public UserData() {
         realties = new JSONArray().toString();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCpf() {
         return cpf;
     }
 
+    /**
+     *
+     * @param cpf
+     */
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
     
+    /**
+     *
+     * @param realtyId
+     */
     public void addRealty(Integer realtyId){
         JSONArray array = new JSONArray(realties);
         array.put(realtyId);
         realties = array.toString();
     }
     
+    /**
+     *
+     * @param realtyId
+     */
     public void removeRealty(Integer realtyId){
         JSONArray array = new JSONArray(realties);
         for (int i = 0; i < array.length(); i++) {
@@ -80,35 +127,62 @@ public class UserData {
         }
     }
    
+    /**
+     *
+     * @return
+     */
     public List<Object> getRealties() {
         return new JSONArray(realties).toList();
     }
     
-   public String getR(){
+    /**
+     *
+     * @return
+     */
+    public String getR(){
        return realties;
    }
+   
+    /**
+     *
+     * @param r
+     */
+    public void setR(String r){
+        realties = r;
+    }
 
+    /**
+     *
+     * @return
+     */
     public String getPrKey() {
         return prKey;
     }
 
+    /**
+     *
+     * @param prKey
+     */
     public void setPrKey(String prKey) {
         this.prKey = prKey;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPuKey() {
         return puKey;
     }
 
+    /**
+     *
+     * @param puKey
+     */
     public void setPuKey(String puKey) {
         this.puKey = puKey;
     }
     
-    public void setAllNull() {
-        cpf = null;
-        email = null;
-        password = null;
-        name = null;
-    }    
+
     
 }

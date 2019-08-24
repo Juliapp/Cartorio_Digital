@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
 
+/**
+ *Informações do usuário
+ * @author Juliana
+ */
 public class UserData {
     private String cpf;
     private String name;

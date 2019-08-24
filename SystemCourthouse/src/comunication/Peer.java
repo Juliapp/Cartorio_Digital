@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
+/**
+ *Conexões que fazemos com os outros sistemas
+ * @author Juliana
+ */
 public class Peer {
     private Socket socket;
     private final String ip;
@@ -15,6 +19,9 @@ public class Peer {
         this.port = port;
     }
  
+    /**
+     *Se conecta com o serverSocket de algum peer dado seu host e sua porta
+     */
     public void conect(){
         try {
             socket = createSocket(ip, port);
@@ -24,19 +31,13 @@ public class Peer {
         }
         
     }
-        
-    public boolean isClosed(){
-        return socket.isClosed();
-    }
 
-    public Socket getSocket(){
-        return socket;
-    }
     
     public String getIp(){
         return ip;
     }
     
+
     public int getPort(){
         return port;
     }
@@ -45,11 +46,20 @@ public class Peer {
         return new Socket(host, porta);
     }   
     
+    /**
+     *Close this connection 
+     * @param socket
+     * @throws IOException
+     */
     public void closeSocket(Socket socket) throws IOException{
         socket.close();
     }         
 
-    void send(byte[] bytes) {
+    /**
+     *Manda uma mensagem para esse peer específico 
+     * @param bytes mensagem em bytes 
+     */
+    public void send(byte[] bytes) {
         try {
             output.write(bytes, 0, bytes.length);
             output.flush(); 

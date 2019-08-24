@@ -2,6 +2,10 @@ package model;
 
 import java.util.Observable;
 
+/**
+ *Observable para a mudança da tela de carregando as informações
+ * @author Juliana
+ */
 public class DataCheck extends Observable{
     public boolean sucessfullLogin;
 

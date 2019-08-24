@@ -1,65 +1,127 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import org.json.JSONObject;
 
-@Entity
+/**
+ *Escritura
+ * @author Juliana
+ */
 public class Realty {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)    
+
     private Integer id;
     private String hash;
     private String address;
-    @Column(length = 3000)
     private String houseCharter;
     private byte[] signature;
 
-    public Integer getId() {
-        return id;
+    /**
+     *
+     * @param id
+     * @param hash
+     * @param address
+     * @param houseCharter
+     * @param signature
+     */
+    public Realty(Integer id, String hash, String address, String houseCharter, byte[] signature) {
+        this.id = id;
+        this.hash = hash;
+        this.address = address;
+        this.houseCharter = houseCharter;
+        this.signature = signature;
     }
 
+    /**
+     *
+     */
+    public Realty() {
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Integer getId() {
+        return id;
+    } 
+    
+    /**
+     *
+     * @param id
+     */
     public void setId(Integer id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getHash() {
         return hash;
     }
 
+    /**
+     *
+     * @param hash
+     */
     public void setHash(String hash) {
         this.hash = hash;
     }
 
-
+    /**
+     *
+     * @return
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     *
+     * @param address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getHouseCharter() {
         return houseCharter;
     }
 
+    /**
+     *
+     * @param houseCharter
+     */
     public void setHouseCharter(String houseCharter) {
         this.houseCharter = houseCharter;
     }
 
+    /**
+     *
+     * @return
+     */
     public byte[] getSignature() {
         return signature;
     }
     
+    /**
+     *
+     * @param signature
+     * @param hash
+     */
     public void mergeNewSignature(byte[] signature, String hash){
         this.signature = signature;
         this.hash = hash;
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         JSONObject ts = new JSONObject();

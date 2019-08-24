@@ -10,6 +10,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,12 +36,12 @@ public class FXMLReciveRealtyController implements Initializable {
     }    
 
     @FXML
-    private void confirmPassword(ActionEvent event) {
+    private void confirmPassword(ActionEvent event) throws ClassNotFoundException, SQLException {
         System.out.println(facadeb.getSellerPassword());
         if(tfPassword.getText().equals(facadeb.getSellerPassword())){
             System.out.println("senha correta");
             try {
-                int i = facadeb.sighRepassDocument();
+                int i = facadeb.sighRepassDocument().getId();
                 if(i > 0){
                     JSONObject reply = new JSONObject();
                     reply.accumulate("reply", "sucessful repass");

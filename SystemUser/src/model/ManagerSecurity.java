@@ -1,6 +1,5 @@
 package model;
 
-import JPAPersistence.DAO;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -19,16 +18,25 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.concurrent.ThreadLocalRandom;
 import util.Cript;
 
+/**
+ *
+ * @author Juliana
+ */
 public class ManagerSecurity {
-    private final DAO dao;
+    //Codificação
     private final Cript cript;
+    //Algorítimo de segurança
     private final String ALGORITHM = "DSA";
     
     public ManagerSecurity() {
-        this.dao = new DAO();
         cript = new Cript();
     }
     
+    /**
+     *Gera um novo par de chaves DSA
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     public KeyPair DSAkeyPairGenerator() throws NoSuchAlgorithmException{
         KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
         SecureRandom sr = new SecureRandom();
@@ -36,28 +44,66 @@ public class ManagerSecurity {
         return kpg.generateKeyPair();
     }
     
+    /**
+     *encode na chave pública (PublicKey para String)
+     * @param publicKey
+     * @return
+     */
     public String encodePublicKey(PublicKey publicKey){
         return cript.BASE64encode(publicKey.getEncoded());
     }
 
+    /**
+     *decode na chave pública (String para PublicKey)
+     * @param publicKey
+     * @return
+     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException
+     */
     public PublicKey decodePublicKey(String publicKey) throws InvalidKeySpecException, NoSuchAlgorithmException {
         KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
-        EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(cript.BASE64decode(publicKey));
+        byte[] key = cript.BASE64decode(publicKey);
+        EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(key);
         return keyFactory.generatePublic(publicKeySpec);           
     }
     
+    /**
+     *decoda a chave privada (String para PrivateKey)
+     * @param privateKey
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     public PrivateKey decodePrivateKey(String privateKey) throws NoSuchAlgorithmException, InvalidKeySpecException{
         KeyFactory keyFactory = KeyFactory.getInstance(ALGORITHM);
-        EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(cript.BASE64decode(privateKey));
+        byte[] key = cript.BASE64decode(privateKey);
+        EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(key);
+        keyFactory.generatePrivate(privateKeySpec);
         return keyFactory.generatePrivate(privateKeySpec);           
     }
-
+    
+    /**
+     *Encode na chave privada (PrivateKey para String)
+     * @param privateKey
+     * @return
+     */
     public String encodePrivateKey(PrivateKey privateKey){
         return cript.BASE64encode(privateKey.getEncoded());
-    }       
+    } 
     
-    public Integer sighDocument(String sellerPublicKey, String buyerPrivateKey, int rId) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
-        Realty realty = dao.findRealty(rId);
+    /**
+     *Faz a chamada da verificação e da assinatura se estiver tudo nos conformes
+     * @param sellerPublicKey
+     * @param buyerPrivateKey
+     * @param realty
+     * @return
+     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     * @throws SignatureException
+     * @throws IOException
+     */
+    public Realty sighDocument(String sellerPublicKey, String buyerPrivateKey, Realty realty) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
         PublicKey sellerPK = decodePublicKey(sellerPublicKey);
         if(checkDocument(sellerPK, realty)){
             System.out.println("assinatura válida");
@@ -65,11 +111,22 @@ public class ManagerSecurity {
         }else{
             System.out.println("Assinatura inválida");
         }
-        return 0;
+        return null;
     }
     
     
-    public Integer sighDocument(String buyerPrivateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
+    /**
+     *Assina o documento
+     * @param buyerPrivateKey
+     * @param realty
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     * @throws SignatureException
+     * @throws IOException
+     * @throws InvalidKeySpecException
+     */    
+    public Realty sighDocument(String buyerPrivateKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException, InvalidKeySpecException{
         PrivateKey privateKey = decodePrivateKey(buyerPrivateKey);
         //Initializing a new signature
         Signature signature = Signature.getInstance(ALGORITHM);
@@ -84,12 +141,20 @@ public class ManagerSecurity {
         byte[] docSigh = signature.sign();
         //update the new sign and the new hash
         realty.mergeNewSignature(docSigh, newHash);
-        //update realty in the database
-        realty = dao.mergeRealty(realty);
-        //return the number of the realtyId to be added to the new owner
-        return realty != null ? realty.getId() : 0;
+        return realty;
     }
     
+    /**
+     *Faz a checagem para ver se o documento é compatível com a chave publica que foi enviada pela rede
+     * Consiste em pegar o documento e pegar a hash deste no banco de dados
+     * @param sellerPublicKey
+     * @param realty
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     * @throws SignatureException
+     * @throws IOException
+     */
     public boolean checkDocument(PublicKey sellerPublicKey, Realty realty) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException{
         Signature sellerSig = Signature.getInstance(ALGORITHM);
         sellerSig.initVerify(sellerPublicKey);
@@ -97,11 +162,29 @@ public class ManagerSecurity {
         sellerSig.update(cript.BASE64decode(signable(realty, realty.getHash())));
         return sellerSig.verify(realty.getSignature());
     }
-
-    public Integer sighDocument(RealtyPassManager realtyPassManager, String privateKey) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
-        return sighDocument(realtyPassManager.getPublicKey(), privateKey, realtyPassManager.getRealty());
-    }
     
+    /**
+     *Chama o método para iniciar a assinatura
+     * @param publicKey
+     * @param realty
+     * @param privateKey
+     * @return
+     * @throws InvalidKeySpecException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeyException
+     * @throws SignatureException
+     * @throws IOException
+     */
+    public Realty sighDocument(String publicKey, Realty realty, String privateKey) throws InvalidKeySpecException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
+        return sighDocument(publicKey, privateKey, realty);
+    }
+ 
+     /**
+     *Torna o documento assinável, pegando os 60 primeiros caracteres da escritura junto com sua hash atual
+     * @param realty
+     * @param hash
+     * @return
+     */
     public String signable(Realty realty, String hash){
         if(realty.getHouseCharter().length() >= 60 ){
             return realty.getHouseCharter().substring(0, 59).concat(hash);

@@ -7,6 +7,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ *Referências para a conexão deste usuário
+ * @author Juliana
+ */
 public class UserPeer {
     private ServerSocket serverSock;
     private Socket socket;
@@ -14,12 +18,20 @@ public class UserPeer {
     private final String host;
     private InputStream input;
 
+    /**
+     *Utiliza o host local e a porta passada por parâmetro
+     * @param port
+     * @throws UnknownHostException
+     */
     public UserPeer(int port) throws UnknownHostException{
         this.host = InetAddress.getLocalHost().getHostAddress();
         this.port = port;
     }
- 
-    void conect(){
+    
+    /**
+     *Primeira conexão do usuário
+     */
+    public void conect(){
         try {
             System.out.println("Esperando algum peer se conectar");
             serverSock = new ServerSocket(port);
@@ -29,6 +41,7 @@ public class UserPeer {
             
         } catch (IOException ex) {
             System.err.println("ex conect");
+            System.err.println(ex);
         }
     }
     
@@ -36,13 +49,16 @@ public class UserPeer {
         return serverSock;
     }
     
+    
     public Socket getSocket(){
         return socket;
     }
     
+    
     public int getPort(){
         return port;
     }
+    
     
     public String getHost(){
         return host;
@@ -54,6 +70,6 @@ public class UserPeer {
     
     public void closeSocket(Socket socket) throws IOException{
         socket.close();
-    }         
+    }   
       
 }

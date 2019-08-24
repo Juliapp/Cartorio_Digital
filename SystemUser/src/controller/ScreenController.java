@@ -1,16 +1,15 @@
 package controller;
 
-import JPAPersistence.DAO;
 import facade.FacadeBack;
 import facade.FacadeComunication;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,24 +21,33 @@ import static util.Settings.Scenes.PASSSTAGE;
 import static util.Settings.Scenes.REALTY;
 import static util.Settings.Scenes.RECIVESTAGE;
 
+/**
+ *Controlador de cenas (interface gráfica)
+ * @author Juliana
+ */
 public class ScreenController {
 
     private final FacadeBack facadeb;
     private final FacadeComunication facadec;
     private final Stage stage;
     private Realty actual;
-    private final DAO dao;
+    private final DaoController dao;
     
     private boolean isYours;
     private String searchUser;
+
 
     public ScreenController(Stage rootStage) throws IOException, ClassNotFoundException {
         stage = rootStage = new Stage();
         facadeb = FacadeBack.getInstance();
         facadec = FacadeComunication.getInstance();
-        dao = new DAO();
+        dao = new DaoController();
     }
 
+    /**
+     *Faz o load para a cena principal
+     * @param screen
+     */
     public void loadRootScreen(Scenes screen){
         Parent root = null;
         try {
@@ -52,6 +60,11 @@ public class ScreenController {
         stage.show();        
     }
     
+    /**
+     *
+     * @param anchor
+     * @param screen
+     */
     public void setAPChildren(AnchorPane anchor, Scenes screen){
         try {
             Node node = (Node)FXMLLoader.load(getClass().getResource(screen.getValue()));
@@ -61,10 +74,17 @@ public class ScreenController {
         }
     }
     
+    /**
+     *Seta a cena como full screen
+     */
     public void setFullScreen(){
         stage.setFullScreen(true);
     }
 
+    /**
+     *Faz o load das escrituras que o usuário possúi
+     * @param vbContainer
+     */
     public void loadYourRealties(VBox vbContainer) {
         isYours = true;
         
@@ -74,7 +94,11 @@ public class ScreenController {
             List<Object> list = facadeb.getUser().getRealties();
             if(list.size() > 0){
                 list.stream().map((id) -> {
-                    actual = dao.findRealty((Integer)id);
+                    try {
+                        actual = dao.findRealty((Integer)id);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        System.err.println(ex);
+                    }
                     return id;
                 }).forEachOrdered((_item) -> {
                     elements.add(createNewRealtyNode());
@@ -87,6 +111,11 @@ public class ScreenController {
         }        
     }
     
+    /**
+     *Faz o load de pesquisa de outro usuário a partir do CPF (função não funcionando como deveria)
+     * @param vbContainer
+     * @param userid
+     */
     public void loadOtherRealties(VBox vbContainer, String userid) {
         isYours = false;
         searchUser = null;
@@ -110,7 +139,11 @@ public class ScreenController {
             List<Object> list = realties.toList();
             if(list.size() > 0){
                 list.stream().map((id) -> {
-                    actual = dao.findRealty((Integer)id);
+                    try {
+                        actual = dao.findRealty((Integer)id);
+                    } catch (ClassNotFoundException | SQLException ex) {
+                        System.err.println(ex);
+                    }
                     return id;
                 }).forEachOrdered((_item) -> {
                     elements.add(createNewRealtyNode());
@@ -133,31 +166,18 @@ public class ScreenController {
         return node;
     }
     
+    /**
+     *Pega a referência de escritura atual para ser mostrada na interface
+     * @return
+     */
     public Realty getActualRealty(){
         return actual;
     }
     
-    public void newAlertError(String title, String mensege) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle(title);
-        a.setContentText(mensege);
-        a.show();
-    }
 
-    public void newAlertInformation(String title, String mensege) {
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setTitle(title);
-        a.setContentText(mensege);
-        a.show();
-    }
-    
-    public void newAlertWarn(String title, String mensege) {
-        Alert a = new Alert(Alert.AlertType.WARNING);
-        a.setTitle(title);
-        a.setContentText(mensege);
-        a.show();
-    }    
-
+    /**
+     *Abre uma nova cena para você setar as informações para envio de uma nova escritura
+     */
     public void passScreen() {
         Stage passStage = new Stage();
         Parent root = null;
@@ -171,6 +191,9 @@ public class ScreenController {
         passStage.show();              
     }
    
+    /**
+     *Abre uma nova cena para receber uma nova escritura
+     */
     public void reciveScreen() {
         Stage passStage = new Stage();
         Parent root = null;
@@ -184,6 +207,10 @@ public class ScreenController {
         passStage.show();              
     }
 
+    /**
+     *Vê se a escritura de referência nessa classe é sua
+     * @return
+     */
     public boolean isIdYours() {
         return isYours;
     }
@@ -199,8 +226,6 @@ public class ScreenController {
     public void setSearchUser(String searchUser) {
         this.searchUser = searchUser;
     }
-    
-    
     
 }    
 
